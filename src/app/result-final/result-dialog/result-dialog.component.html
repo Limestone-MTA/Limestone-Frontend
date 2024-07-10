@@ -1,0 +1,77 @@
+<mat-progress-bar mode="indeterminate" color="warn" *ngIf="!error && !dataSource?.data.length"></mat-progress-bar>
+<div class="container">
+    <div>
+        <mat-button-toggle-group class="toggle" name="toggle" value="0">
+            <mat-button-toggle (change)="changeTest($event)" value="0">Standard</mat-button-toggle>
+            <mat-button-toggle (change)="changeTest($event)" value="1">Musical chair</mat-button-toggle>
+        </mat-button-toggle-group>
+        <h3>{{ d.assoc.out }} - {{ d.assoc.pred }}</h3>
+        <div *ngIf="error" style="color: red">{{ error }}</div>
+        <div *ngIf="d.logistic">This is logistic regression results.</div>
+        <div class="charts" *ngIf="!error && dataSource.data && !d.logistic">
+            <ngx-charts-pie-chart 
+            [view]="view"
+            [results]="dataCharts" 
+            [customColors]="customColors"
+            [gradient]="gradient"
+            [legend]="showLegend"
+            [labels]="showLabels"
+            ></ngx-charts-pie-chart>
+        </div>
+    </div>
+    <div class="search">
+        <mat-form-field style="width: 100%;">
+            <button matPrefix mat-icon-button aria-label="search">
+                <mat-icon>search</mat-icon>
+            </button>
+            <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Filter" #searchInput />
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value = ''; applyFilter('')">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.name"> {{ v.name }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="varExplained">
+            <mat-header-cell *matHeaderCellDef mat-sort-header title="Relative square correlation"> R <sup>2</sup>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.varExplained"> {{ v.varExplained | number }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="oddsRatio">
+            <mat-header-cell *matHeaderCellDef mat-sort-header title="OddsRatio">Odds Ratio</mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.varExplained"> {{ v.oddsRatio  | number }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="beta">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> &beta; </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.beta"> {{ v.beta | scientific: 3 }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="sd">
+            <mat-header-cell *matHeaderCellDef mat-sort-header title="Standard deviation">Sd</mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.sd"> {{ v.sd | scientific: 3 }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pval">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Pval </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.pval">{{ v.pval | scientific: 3 }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="MCbeta">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> &beta; <sub>M2</sub> </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.MCbeta"> {{ v.MCbeta | scientific: 3 }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="MCsd">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> SE(&beta; <sub>M2</sub>) </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.MCsd"> {{ v.MCsd | scientific: 3 }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="MCpval">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Pval <sub>M2</sub> </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.MCpval">
+                <span [class]="v.MCpval >= v.MAp ? '' : 'bold'"> {{ v.MCpval | number }} </span>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let v; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[2, 5, 10]" [showFirstLastButtons]="true"> </mat-paginator>
+</div>

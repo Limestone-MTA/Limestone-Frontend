@@ -1,0 +1,11 @@
+.card {
+    width: 25%;
+    margin: auto;
+    margin-top: 3em;
+    padding: 1em;
+    font-size: 20px;
+}
+.img-responsive {
+    width: 25%;
+    margin: auto;
+}

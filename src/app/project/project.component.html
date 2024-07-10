@@ -1,0 +1,86 @@
+<mat-progress-bar mode="indeterminate" color="warn" *ngIf="!project"></mat-progress-bar>
+<div style="width: 80%;margin: auto;margin-top: 0.5em">
+  <div *ngIf="project" style="margin-bottom: 0.5em;">
+    <button mat-button class="navigation-button" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <span class="material-symbols-outlined">counter_0</span>
+      Project
+    </button>
+    <button mat-button disabled class="navigation-disabled">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <span class="material-symbols-outlined">counter_1</span>
+      Data Transformation
+    </button>
+    <button mat-button disabled class="navigation-disabled">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <span class="material-symbols-outlined">counter_2</span>
+        Quality Control
+    </button>
+    <button mat-button disabled class="navigation-disabled">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <span class="material-symbols-outlined">counter_3</span>
+      Variables Selection
+    </button>
+    <button mat-button disabled class="navigation-disabled">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <span class="material-symbols-outlined">counter_4</span>
+      Results
+    </button>
+  </div>
+  <mat-progress-bar mode="determinate" value="11"></mat-progress-bar>
+</div>
+<mat-card *ngIf="project" class="view-container">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>{{project.name}}</mat-card-title>
+      <mat-card-subtitle>
+        <div>{{project.created | date:'medium'}}</div>
+        <div *ngIf="project.description">{{project.description}}</div>
+      </mat-card-subtitle>
+    </mat-card-title-group>
+  </mat-card-header>
+  <div>
+    <mat-card-content>
+      <app-project-detail [project]="project"></app-project-detail>
+    </mat-card-content>
+  </div>
+</mat-card>
+<mat-card [hidden]="project" class="variables-list">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>Variables list and details</mat-card-title>
+      <mat-card-subtitle>
+        Click on a variable to get more informations
+      </mat-card-subtitle>
+    </mat-card-title-group>
+  </mat-card-header>
+  <div class="search">
+    <mat-form-field style="width: 100%;">
+      <button matPrefix mat-icon-button aria-label="search">
+        <mat-icon>search</mat-icon>
+      </button>
+      <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Filter" #searchInput>
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value=''; applyFilter('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let row" (click)="openDialog(row)" class="pointer"> {{row.name}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="missing">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Missing values percentage</mat-header-cell>
+        <mat-cell *matCellDef="let row" (click)="openDialog(row)" title="{{row.missing}} missing values"> {{row.missingP}}% </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+        <mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.type}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  </mat-card-content>
+</mat-card>

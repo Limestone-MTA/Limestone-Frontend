@@ -1,0 +1,107 @@
+<h1 style="margin: auto;text-align: center;font-size: 30px;">Q&A Limestone</h1>
+<div class="QA-accordion">
+  <mat-card class="reminder">
+    <div>
+      <p> 
+          First, we would like to remind the users that this is a statistical analysis.<br />
+          Choices at the <i>quality control</i>, <i>analysis settings</i>, and <i>interpretation of results stages</i>, should be done bearing in mind existing knowledge related to the data and to standard practices.<br />
+          Performing analyses otherwise can result in invalid statistical tests.
+      </p>
+    </div>
+  </mat-card>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="panel-header">
+        <mat-panel-title>Representation of missing values and true/false </mat-panel-title>
+        <mat-panel-description style="flex: none">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <p class="qa-text"> Here is the list of missing value representation that is recognized by limestone : </p>
+        <ul class="qa-text">
+          <li>[#N/A, #N/A, N/A, #NA, -1.#IND, -1.#QNAN, -NaN, -nan, 1.#IND, 1.#QNAN, &lt;NA&gt;, N/A, NA, NULL, NaN, None, n/a, nan, null, na, Na, ".."]</li>
+        </ul>
+        <br>
+        <p class="qa-text">For the True/False please use these values :</p>
+        <ul class="qa-text">
+          <li>[TRUE, True, true, YES, Yes, yes] for true values</li>
+          <li>[FALSE, False, false, NO, No, no] for false values</li>
+        </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="panel-header">
+        <mat-panel-title>Data types</mat-panel-title>
+        <mat-panel-description style="flex: none">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <p class="qa-text">The variables are categorized into 4 different types : </p>
+          <ul class="qa-text">
+            <li><b>Text</b> :  This variable contains text element that are not readible as number. 
+              If the variables has less than 15 different values this variable is automatically transformed into 15 binary variables than can be analyzed.</li>
+            <li><b>Continuous</b> : This variable is numerical with more than 15 different values.</li>
+            <li><b>Ordinal</b> : This variable is numerical with less than 15 different values</li>
+            <li><b>Binary</b> : This variable has 2 different values. It is represented with a 1 and a 0. The 1 is based on the first value in the variable column</li>
+          </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="panel-header">
+        <mat-panel-title>Sample size</mat-panel-title>
+        <mat-panel-description style="flex: none">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <p class="qa-text">If the sample size (i.e. the number of individuals, or entities) is less than (10 + number of variables in your model),
+            your data can't be analyzed.
+            With less than ~50 samples, you should be aware that results would be subject to major caution, 
+            and analyses warrant additional confirmation from an independent (and larger) dataset.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="panel-header">
+        <mat-panel-title>Structured data</mat-panel-title>
+        <mat-panel-description style="flex: none">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <p class="qa-text">If your data are structured, and you do not account for it, this might invalidate the results from the analysis. 
+          Below are examples and potential solution.</p>
+        <ul class="qa-text">
+            <li>If your data have a <u>hierarchical structure</u> (e.g. the variables in your dataset can be organized in a tree within a limited number of levels). 
+              We highly recommend that you analyze data from each level separately.</li>
+            <li>If the <u>samples in your data  are not independently and identically distributed</u> (so called i.i.d.). 
+              This would be the case if, for example, your dataset includes multiple measurement of the same variable at multiple time points, 
+              or if you analyze individuals that are related. Analyzing such data requires advanced statistical techniques that are not currently implemented in Limestone. 
+              Therefore we currently recommend removing such sample or variables so that the remaining data are i.i.d.</li>
+        </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="panel-header">
+        <mat-panel-title>Genral information for quality control (QC)</mat-panel-title>
+        <mat-panel-description style="flex: none">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <ul class="qa-text">
+            <li><strong>Low count rule:</strong> Function applied to ordinal and binary variables only. 
+              When the occurrence of one value is very low (i.e. below the selected threshold), 
+              this value will be merged with the next smaller value. 
+              When it results in a constant (all samples have the same value), this variable is excluded.</li>
+            <li><strong>Data transformation:</strong> Function that apply <a href="https://en.wikipedia.org/wiki/Data_transformation_(statistics)" target="_blank">data transformation</a> to all your continuous variables at once.
+              <ul>
+                  <li><strong>Log transformation</strong> will use the logarithm value of the variable instead of the original value.</li>
+                  <li><strong>Probit transformation</strong> will apply an inverse normal transformation on the ranked values, 
+                      resulting in a fully normal distribution. Tie ranks are set with the average of the corresponding inverse of the percentile.</li>
+              </ul>
+            </li>
+        </ul>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="panel-header">
+        <mat-panel-title>Definition of variable type and use in the analysis setting (AS)</mat-panel-title>
+        <mat-panel-description style="flex: none">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <ul class="qa-text">
+            <li><strong>Outcomes</strong> refers to as dependent variable in a standard regression.</li>
+            <li><strong>Predictors</strong> refers to as explanatory variable in a standard regression.</li>
+            <li><strong>Confounders</strong> refers to variables that influences both the dependent variable and independent variable causing a spurious association. Variables checked as confounder will be systematically added as covariate in the analysis.</li>
+            <li><strong>Covariates</strong> are variables that will be assessed by <a href="https://doi.org/10.1038/ng.3975" target="_blank">the MC algorithm</a>. Those selected by MC (if any) will be included in the regression model as covariates.</li>
+        </ul>
+    </mat-expansion-panel>    
+  </mat-accordion>
+</div>

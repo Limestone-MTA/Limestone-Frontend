@@ -1,0 +1,13 @@
+<mat-radio-group class="outliers" [(ngModel)]="qc.outliersChoose" name="outliersChoose" [disabled]="readonly">
+    <mat-radio-button value="preserveAll"> preserve all </mat-radio-button>
+    <mat-radio-button value="setDistance"> set a distance toward mean value </mat-radio-button>
+</mat-radio-group>
+<div *ngIf="qc.outliersChoose === 'setDistance'" class="slider-container">
+    <mat-slider class="slider" *ngIf="qc.distanceMean" showTickMarks min="1" max="6" [disabled]="readonly" ngDefaultControl style="flex: 4 auto;">
+        <input matSliderThumb (input)="distanceMeanOnSliderChange($event.target)" [(ngModel)]="qc.distanceMean">
+    </mat-slider>
+    <mat-form-field>
+        <mat-label>Value</mat-label>
+        <input class="slider-input" matInput type="number" [(ngModel)]="qc.distanceMean" name="distanceMean" (input)="distanceMeanOnInputChange($event.target)" [readonly]="readonly" />
+    </mat-form-field>
+</div>

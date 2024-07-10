@@ -1,0 +1,70 @@
+<div id="project-header">
+    <button mat-icon-button color="warn" matTooltip="Delete this project and all data related to it" [matTooltipShowDelay]="500" style="width: 3%;"
+    (click)="deleteProject(project.ident)">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" matTooltip="Manage the collaborators that can view this project" [matTooltipShowDelay]="500" style="width: 3%;"
+    (click)="manageCollaborator(project.ident)">
+      <mat-icon>groups</mat-icon>
+    </button>
+    <app-data-project [project]="project" style="width: 80%;"></app-data-project>
+</div>
+<div style="display: flex;" *ngIf="actionsEnable">
+    <div style="flex: 1"></div>
+    <button mat-raised-button color="button-blue" *ngIf="projects" (click)="detail(project)" matTooltip="Go to the detail page of the project" class="action-button">View project page</button>
+    <button mat-raised-button color="button-blue" (click)="openDialog()" matTooltip="Create an analysis for this project" class="action-button">Create an analysis</button>
+</div>
+<div class="actions" *ngIf="!actionsEnable">
+    <div style="flex: 1">&nbsp;</div>
+    <mat-spinner></mat-spinner>
+    <div style="flex: 1">&nbsp;</div>
+</div>
+<div id="tree-list" *ngIf="project.dataTransformation.length">
+    <mat-divider></mat-divider>
+    <div>&nbsp;</div>
+    <h3>Previous actions
+        <button mat-raised-button *ngIf="hide_delete_button" color="basic" (click)="deleteModeChange()" matTooltip="Show/hide delete buttons" class="show-delete-button">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-raised-button *ngIf="!hide_delete_button" color="basic" (click)="deleteModeChange()" matTooltip="Show/hide delete buttons" class="show-delete-button">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </h3>
+    <div *ngFor="let dt of project.dataTransformation">
+        <button mat-button [routerLink]="['/dt', dt.ident]" matTooltip="Go to Data Transformation (DT) {{ dt.ident }}">
+            <mat-icon>chevron_right</mat-icon>
+            <span>{{ dt.name }}</span>
+        </button>
+        <button mat-raised-button [hidden]="hide_delete_button" color="warn" (click)="deleteDt(dt)" matTooltip="Delete this dt and all data related to it" class="delete-button">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <div *ngFor="let qc of dt.qualityControl" class="tree-indent">
+            <button mat-button [routerLink]="['/qc', qc.ident]" matTooltip="Go to Quality Control (QC) {{ qc.ident }}">
+                <mat-icon>chevron_right</mat-icon>
+                <span>{{ qc.name }}</span>
+            </button>
+            <button mat-raised-button [hidden]="hide_delete_button" color="warn" (click)="deleteQc(qc)" matTooltip="Delete this qc and all data related to it" class="delete-button">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <div *ngFor="let ass of qc.analysisSetting" class="tree-indent">
+                <button mat-button [routerLink]="['/as', ass.ident]" matTooltip="Go to Analysis Setting (AS) {{ ass.ident }}">
+                    <mat-icon>chevron_right</mat-icon>
+                    <span>{{ ass.name }}</span>
+                </button>
+                <button mat-raised-button [hidden]="hide_delete_button" color="warn" (click)="deleteAs(ass)" matTooltip="Delete this as and all data related to it" class="delete-button">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <div *ngFor="let result of ass.result" class="tree-indent">
+                    <button mat-button [routerLink]="['/r', result.ident]" matTooltip="Go to result {{ result.ident }}">
+                        <mat-icon>chevron_right</mat-icon>
+                        <span> Result {{ result.updated | date: 'medium' }}</span>
+                    </button>
+                    <button mat-raised-button [hidden]="hide_delete_button" color="warn" (click)="deleteResult(result)" matTooltip="Delete this result and all data related to it" class="delete-button">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!project.dataTransformationlength">&nbsp;</div>

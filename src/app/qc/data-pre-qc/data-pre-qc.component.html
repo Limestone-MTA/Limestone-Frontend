@@ -1,0 +1,13 @@
+<div class="container">
+    <mat-list style="min-width: 270px;">
+      <mat-list-item>
+        <span matListItemTitle>Sample Size : {{project.sampleSize}}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle>Number of missing values: {{qc.totalMissing}}</span>
+      </mat-list-item>
+    </mat-list>
+    <div class="pie-pre-qc">
+      <ngx-charts-advanced-pie-chart [results]="results" label="variables"> </ngx-charts-advanced-pie-chart>
+    </div>
+  </div>

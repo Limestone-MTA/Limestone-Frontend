@@ -1,0 +1,89 @@
+.header{
+    margin : 15px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.sub-headers{
+    padding: 0%;
+    margin-bottom: 0.5em;
+    font-size: large;
+}
+
+.navigation-button {
+    width: 20%;
+    color: #3E50B4;
+    font-size:large;
+}
+
+.navigation-disabled {
+    width: 20%;
+    font-size:large;
+}
+
+.material-symbols-outlined {
+    vertical-align: middle;
+    font-size:xx-large;
+}
+
+.dt-explanation {
+    width: 30%;
+    min-width: 300px;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+.dt-title {
+    width: 30%;
+    min-width: 300px;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+.action-button-container {
+    flex-grow: 1;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+.action-button {
+    flex-grow: 1;
+    margin-right: 1em;
+    margin-top: auto;
+    margin-bottom: auto;
+    min-height: 50px;
+}
+
+.save-duplicate-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.variables-list {
+    margin: 15px;
+}
+
+.search {
+    min-height: 64px;
+    padding: 0;
+    margin: 10px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.mat-column-name{
+    flex: 0 0 60%;
+}
+
+.mat-column-select {
+    overflow: initial;
+    max-width: 120px;
+    justify-content: flex-end;
+}
+
+.mat-button-blue {
+    background-color: #68B6EF;
+    color: #fff;
+}

@@ -1,0 +1,23 @@
+.no-project {
+    margin: 15px;
+}
+
+@media (max-width: 500px) {
+    .mat-expansion-panel {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    .no-project {
+        margin: 15px;
+    }
+}
+
+.create-project {
+    min-height: 50px;
+    margin: 15px;
+}
+
+.mat-button-blue {
+    background-color: #68B6EF;
+    color: #fff;
+  }

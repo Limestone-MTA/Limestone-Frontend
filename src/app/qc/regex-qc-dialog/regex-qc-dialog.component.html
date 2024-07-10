@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-card-content>
+        <div> You can look at the details of your variables here.</div>
+        <div>Search variables supports regular expressions:</div>
+        <ul>
+        <li>
+            <b>^ag</b> will show all variables starting with the string "ag" (age, agriculture...).
+        </li>
+        <li>
+            <b>er$</b> will show all variables ending with the string "er" (gender, ).
+        </li>
+        <li>
+            <b>gender|age</b> will show all variables including either "gender" or "age".
+        </li>
+        <li>
+            <b>*</b> means any character.
+        </li>
+        <li>
+            <b>^((?!age).)*$</b> will show all variables without the word age.
+        </li>
+        </ul>
+        <div>&nbsp;</div>
+        <div>For additional information on regular expressions,
+            <a target="_doc" href=" https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">click here</a>.
+        </div>
+    </mat-card-content>
+</mat-card>

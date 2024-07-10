@@ -1,0 +1,12 @@
+.card {
+    min-height: 300px;
+}
+
+.apply-button {
+    width: 30%;
+    margin: auto;
+}
+.mat-button-blue {
+    background-color: #68B6EF;
+    color: #fff;
+}

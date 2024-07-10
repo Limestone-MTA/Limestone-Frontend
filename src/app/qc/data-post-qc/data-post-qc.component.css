@@ -1,0 +1,23 @@
+.pie-pre-qc {
+    text-align: center;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    letter-spacing: 0.01rem;
+    width: 60%;
+    margin: 1em 0;
+}
+
+.container {
+    display: flex;
+}
+
+@media (max-width: 720px) {
+    .container {
+        flex-direction: column;
+    }
+    .pie-pre-qc {
+        width: 100%;
+    }
+}

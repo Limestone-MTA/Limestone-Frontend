@@ -1,0 +1,9 @@
+<div class="slider-container">
+    <mat-slider class="slider" min="1" max="20" [disabled]="readonly" ngDefaultControl>
+        <input matSliderThumb (input)="lowCountRuleOnSliderChange($event.target)" [(ngModel)]="qc.lowCountRule">
+    </mat-slider>
+    <mat-form-field>
+        <mat-label>Value</mat-label>
+        <input class="slider-input" matInput type="number" [(ngModel)]="qc.lowCountRule" name="lowCountRule" (input)="lowCountRuleOnInputChange($event.target)" [readonly]="readonly" />
+    </mat-form-field>
+</div>

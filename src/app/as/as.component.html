@@ -1,0 +1,307 @@
+<mat-progress-bar mode="indeterminate" color="warn" *ngIf="!dataSource?.data?.length"></mat-progress-bar>
+<mat-card class="header">
+    <div *ngIf="ass" style="width: 80%;margin: auto;margin-top: 0.5em;">
+        <div style="margin-bottom: 0.5em;">
+            <button mat-button class="navigation-button" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_0</span>
+                Project
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/dt', dt.ident]" title="Go to Data Transformation (DT) {{dt.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_1</span>
+                Data Transformation
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/qc', qc.ident]" title="Go to Quality Control (QC) {{qc.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_2</span>
+                Quality Control
+            </button>
+            <button mat-button class="navigation-button"  [routerLink]="['/as', ass.ident]" title="Go to Analysis Settings (AS) {{ass.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_3</span>
+                Variables Selection
+            </button>
+            <button mat-button disabled class="navigation-disabled">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_4</span>
+                Results
+            </button>
+        </div>
+        <mat-progress-bar mode="determinate" value="71"></mat-progress-bar>
+    </div>
+    <div class="as-explanation">
+        <mat-card-header class="sub-headers">
+            What is the variable selection step ?
+        </mat-card-header>
+        <p style="font-size: medium;">This page allows you to define the model to be tested, including outcomes (Y), 
+            predictors (X) and confounding factors (F). It also includes a potential covariate column (C) that is used in the Musical Chair (MC) approach only. 
+            We recommend including all variables related to the outcome as potential covariate. 
+            <br/>Note that confounding factors cannot be used as covariates for MC. When multiple outcomes and predictors are selected, 
+            Limestone will conduct a systematic screening for all Y-X pairs.
+        </p>
+    </div>
+    <div class="as-title">
+        <mat-card-header class="sub-headers">
+            Name of this variables selection
+        </mat-card-header>
+        <mat-form-field *ngIf="ass" subscriptSizing="dynamic" style="width: 100%; max-width: 500px;">
+            <input matInput type="text" placeholder="Name your variables selection" [(ngModel)]="ass.name" name="name" required [readonly]="readonly" />
+            <button mat-button *ngIf="!readonly" matSuffix aria-label="Clear" (click)="ass.name = ''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div class="action-button-container">
+        <mat-card-header class="sub-headers">
+            Actions
+        </mat-card-header>
+        <div class="save-duplicate-buttons">
+            <mat-spinner *ngIf="!error && isSaving"></mat-spinner>
+            <button mat-raised-button color="button-blue" (click)="saveAndGo(ass, variables)" [disabled]="isSaving" title="Save and launch analysis" class="action-button"><mat-icon>arrow_forward</mat-icon> Launch analysis</button>
+            <button mat-raised-button color="button-blue" (click)="duplicate(ass, variables)" [disabled]="isSaving" title="Duplicate this variables selection" class="action-button"><mat-icon>content_copy</mat-icon> Duplicate</button>
+            <button mat-raised-button *ngIf="!readonly" color="button-blue" (click)="save(ass, variables)" [disabled]="isSaving" title="Save current changes made on this variables selection" class="action-button"><mat-icon>save</mat-icon> Save</button>
+        </div>
+        <div *ngIf="qc" class="cms-score" style="width: 230px;">
+            <div *ngIf="0<=project.cmsScore && project.cmsScore<0.3" style="width: 210px;">
+              <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+              <span class="material-symbols-outlined" style="color: orange; vertical-align: middle  ;">readiness_score</span>
+              <app-help style="vertical-align: bottom;">
+                <div>
+                  Your dataset may not produce result with our algorithm Musical Chair, but can still be analyzed with the standard method.
+                </div>
+              </app-help>
+            </div>
+        </div>
+        <!--<div *ngIf="qc" class="cms-score" style="width: 230px;">
+            <span *ngIf="0<=qc.cmsScoreQC &&qc.cmsScoreQC<0.3" class="material-symbols-outlined" style="color: red; vertical-align: middle;">readiness_score</span>
+            <span *ngIf="0.3<=qc.cmsScoreQC && qc.cmsScoreQC<0.65" class="material-symbols-outlined" style="color: orange; vertical-align: middle;">readiness_score</span>
+            <span *ngIf="0.65<=qc.cmsScoreQC" class="material-symbols-outlined" style="color: green; vertical-align: middle;">readiness_score</span>
+            <span *ngIf="project.cmsScore>=0" style="vertical-align: middle;"> MC score: {{project.cmsScore.toFixed(3)}}</span>
+            <span *ngIf="project.cmsScore<0" style="vertical-align: middle;"> MC score : NA</span>
+            <app-help>
+                <div>
+                    This score indicates how your data can produce interesting results using our algorithm : Musical Chair.
+                </div>
+                <div>&nbsp;</div>
+                <div>
+                    If the score is higher than 0.6, we encourage you to add covariables in the variable selection step.
+                </div>
+                <div>&nbsp;</div>
+                <div>
+                  The score is unavailable for dataset with more than 5000 columns.
+                </div>
+              </app-help>
+        </div>-->
+    </div>
+</mat-card>
+<div class="wrapper">
+    <!--<mat-card class="as-advanced" *ngIf="ass">
+        <mat-card-content>
+            <button mat-button aria-label="Clear" (click)="showAdvance = !showAdvance" style="float: right;">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <div [class.show]="showAdvance" style="display: none">
+                <div style="clear:both"></div>
+                <mat-card-title>Advanced approach:</mat-card-title>
+                <mat-card-subtitle
+                    >Settings based on maximum robustness with thousands of simulations. Min tot sample: {{ ass.minTotSample }}, Sigma max: {{ ass.sigmaMax }}, dweight:
+                    {{ ass.dweight }}.</mat-card-subtitle
+                >
+                <mat-button-toggle-group class="advanced-toogle" name="test-toogle" aria-label="Test" *ngIf="!readonly">
+                    <mat-button-toggle (change)="changeAdvancedSetting($event)" value="0">Standard</mat-button-toggle>
+                    <mat-button-toggle (change)="changeAdvancedSetting($event)" value="1">Standard 2</mat-button-toggle>
+                    <mat-button-toggle (change)="changeAdvancedSetting($event)" value="2">Customized</mat-button-toggle>
+                </mat-button-toggle-group>
+                <div style="max-width: 120px">
+                    <label>Min tot sample</label>
+                    <input matInput type="number" [(ngModel)]="ass.minTotSample" name="minTotSample" [readonly]="readonly" step="0.01" (change)="onChangeAdvanced($event)" />
+                    <label>Sigma max</label>
+                    <input matInput type="number" [(ngModel)]="ass.sigmaMax" name="sigmaMax" [readonly]="readonly" step="0.01" />
+                    <label>dweight</label>
+                    <input matInput type="number" [(ngModel)]="ass.dweight" name="dweight" [readonly]="readonly" step="0.01" />
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>-->       
+    <mat-expansion-panel *ngIf="ass" class="advanced-parameters">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Advanced parameters
+                <app-help>
+                    <div>You can chose to use logistic regression to analyze your binary outcomes.</div>
+                    <div>You can add a selection on covariates that will be analyzed, we recommend to use this option if your variables are higly correlated.</div>
+                </app-help>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="global-actions">
+            <div class="tests">
+                <mat-card-header class="sub-headers" style="margin-top: 1em;">Use logistic regression for your binary outcomes :</mat-card-header>
+                <mat-radio-group *ngIf="ass" class="radio-button" [(ngModel)]="ass.logistic" name="logistic" [disabled]="readonly">
+                    <mat-radio-button [value]="true"> Linear regression and logistic regression for binary outcomes </mat-radio-button>
+                    <mat-radio-button [value]="false"> Only linear regression </mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="preselection">
+                <mat-card-header class="sub-headers" style="margin-top: 1em;">Selection on covariates :</mat-card-header>
+                <mat-radio-group *ngIf="ass" class="radio-button" [(ngModel)]="ass.preselection" name="preselection" [disabled]="readonly">
+                    <mat-radio-button [value]="true"> Apply a selection on the covariates </mat-radio-button>
+                    <mat-radio-button [value]="false"> Try all the covariates </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    <!--<mat-card class="inputation">
+        <mat-card-header>
+            <mat-card-title
+                >Impute missing values for covariates
+                <app-help>
+                    Missing value will be replaced by the imputed one. Imputation is applied only to covariates, providing an outcome-predictor pair.
+                </app-help>
+            </mat-card-title>
+            <mat-card-subtitle>Imputation is highly recommended. It will allow maximizing sample size.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-radio-group [(ngModel)]="ass.imputation" name="imputation" [disabled]="readonly">
+                <mat-radio-button style="margin-bottom: 0.8em" value="mean">Using the mean value</mat-radio-button>
+                <br />
+                <mat-radio-button value="remove">Remove individuals with missing data</mat-radio-button>
+            </mat-radio-group>
+        </mat-card-content>
+    </mat-card>-->
+    <!--<mat-card class="overview" *ngIf="ass">
+            <mat-card-header>
+                <mat-card-title>Selection Overview </mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <div style="width: 70%; height: 300px; margin: auto;">
+                <mat-card-content *ngIf="chartsData" style="height: 80%;">
+                    <ngx-charts-bar-vertical [results]="chartsData" [animations]="false"></ngx-charts-bar-vertical>
+                </mat-card-content>
+            </div>
+    </mat-card>-->
+    <mat-card class="variables">
+        <mat-card-header>
+            <mat-card-title>
+                Variables
+                <button mat-icon-button (click)="openRegexDialog()">
+                    <mat-icon>live_help</mat-icon>
+                </button>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div>
+                <mat-list role="list" style="padding: 0px;">
+                    <mat-list-item role="listitem" class="selected-variables">Outcomes ({{ this.selected_variables_list.outcome.length}}): {{ this.selected_variables_list.outcome.join(', ')}}</mat-list-item>
+                    <mat-list-item role="listitem" class="selected-variables">Predictors ({{ this.selected_variables_list.predictor.length}}): {{ this.selected_variables_list.predictor.join(', ')}}</mat-list-item>
+                    <mat-list-item role="listitem" class="selected-variables">Confounders ({{ this.selected_variables_list.confounder.length}}): {{ this.selected_variables_list.confounder.join(', ')}}</mat-list-item>
+                    <mat-list-item role="listitem" class="selected-variables">Covariates ({{ this.selected_variables_list.covariate.length}}): {{ this.selected_variables_list.covariate.join(', ')}}</mat-list-item>
+                  </mat-list>
+            </div>
+            <div class="search" *ngIf="!selection.selected.length">
+                <mat-form-field style="width: 100%;">
+                    <button matPrefix mat-icon-button aria-label="search">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Filter" #searchInput />
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value = ''; applyFilter('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <mat-toolbar *ngIf="selection.selected.length" style="background-color: white;">
+                <mat-toolbar-row>
+                    <span class="spacer">{{ selection.selected.length }} variable{{ selection.selected.length > 1 ? 's' : '' }} selected.</span>
+                    <span *ngFor="let o of params.asOutputs">
+                        <mat-checkbox (change)="massSelect(o)" aria-label="multiple">{{ o }}</mat-checkbox>
+                    </span>
+                    <button matSuffix mat-icon-button aria-label="Close selection" (click)="selection.clear(); applyFilter('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <div style="text-align: left;">
+                <button mat-flat-button color="warn" (click)="clear_all()" [disabled]="readonly"><mat-icon>remove_done</mat-icon> Clear all</button>
+            </div>
+            <mat-table [dataSource]="dataSource" matSort>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef style="text-align: center;">
+                        Select all
+                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (click)="openDialog(row)" [title]="row.name"> {{ row.name }} </mat-cell>
+                </ng-container>
+                <!-- Missing value % Column -->
+                <ng-container matColumnDef="missing">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Missing </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{ row.missingP }}% </mat-cell>
+                </ng-container>
+                <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{ row.type }} </mat-cell>
+                </ng-container>
+                <!-- Transformation Column -->
+                <ng-container matColumnDef="transform">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Transform </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{ row.transform }} </mat-cell>
+                </ng-container>
+                <!-- Outcome Column -->
+                <ng-container matColumnDef="outcome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Outcome (Y) </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="change(row, 'outcome', $event)" [checked]="row.outcome" [disabled]="readonly"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <!-- Predictor Column -->
+                <ng-container matColumnDef="predictor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Predictor (X) </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="change(row, 'predictor', $event)" [checked]="row.predictor" [disabled]="readonly"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <!-- Confounders Column -->
+                <ng-container matColumnDef="confounders">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Confounder (F) </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="change(row, 'confounder', $event)" [checked]="row.confounder" [disabled]="readonly"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <!-- Covariates Column -->
+                <ng-container matColumnDef="covariates">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Potential Covariate (C) </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="change(row, 'covariate', $event)" [checked]="row.covariate" [disabled]="readonly || row.confounder"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSize]="pageSize" (page)="pageEvent($event)" [pageSizeOptions]="[10, 20, 100, 500]" [showFirstLastButtons]="true"> </mat-paginator>
+        </mat-card-content>
+    </mat-card>
+    <div class="actions" *ngIf="isSaving && !error && !errorHttp">
+        <div style="flex: 1">&nbsp;</div>
+        <mat-spinner></mat-spinner>
+        <div style="flex: 1">&nbsp;</div>
+    </div>
+    <div class="actions" *ngIf="error" style="color: red">
+        <div style="flex: 1">&nbsp;</div>
+        {{ error }}
+        <div style="flex: 1">&nbsp;</div>
+    </div>
+    <div class="actions" *ngIf="errorHttp" style="color: red">
+        <div style="flex: 1">&nbsp;</div>
+        {{ errorHttp.error.message | json }}
+        <div style="flex: 1">&nbsp;</div>
+    </div>
+</div>

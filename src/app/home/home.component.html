@@ -1,0 +1,61 @@
+<div class="title">
+    <img class="img-responsive" src="assets/images/limestone_logo_hd.png">
+    <h1 class="title-text" >Welcome to Limestone</h1>
+</div>
+<div class="overview">
+    <h1 style="font-size: 25px;">Limestone, a web interface for powerful association studies in large multidimensional data.<br/></h1>
+    <p>
+        Limestone is an analytic software that allows performing linear and logistic regression from tabulated data. It includes  automatic data pre-processing 
+        and quality control steps, but allows for advanced manual parametrization. The current version allows for standard multiple regression models, including
+        confounding factors adjustement, and the advanced <i>MusicalChair</i> approach that leverages high multidimensional data to boost statistical power.
+        <br/>Details about the pre-processing, the quality control, and the modelling can be found in the Q&A.
+        <br/>We are always interested in your opinion to help us improve this tool so please give us your feedback 
+        <a href="https://forms.gle/Eyi8zAF9cnrQ2wcn8" target="_blank">here.</a>
+    </p>
+</div>
+<div style="margin: auto; width: 70%;">
+    <img src="assets/images/home_drawing.jpg" style="width: 100%;">
+</div>
+<div class="create-projects-button">
+    <button mat-raised-button color="button-blue" (click)="newProject()" color="button-blue" class="create-project">Create a new project</button>
+    <button mat-raised-button routerLink="/p" color="button-blue" class="my-projects-button">View my projects</button>
+</div>
+<!--<mat-card class="overview">
+    <b style="margin-bottom: 1em;">Limestone main steps</b>
+    <div class="steps">
+        <mat-card class="step-explained">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+            <span class="material-symbols-outlined">counter_1</span>
+            <p>Upload your data</p>
+        </mat-card>
+        <mat-card class="step-explained">
+            <span class="material-symbols-outlined">counter_2</span>
+            <p>Perform a quality control</p>
+        </mat-card>
+        <mat-card class="step-explained">
+            <span class="material-symbols-outlined">counter_3</span>
+            <p>Define your analysis model</p>
+        </mat-card>
+        <mat-card class="step-explained">
+            <span class="material-symbols-outlined">counter_4</span>
+            <p>View and explore the results</p>
+        </mat-card>
+    </div>
+</mat-card>-->
+<mat-card class="overview">
+    <b>Limestone regression model</b>
+    <p>Limestone is a framework for association studies from large multidimensional data.
+        From the input data, the user select outcomes Y, predictor X and confounding factors F
+        to be tested for association using a standard linear regression model:
+    <br>
+    f(Y)~X+F.
+    <br>
+    It also allows for advanced analyses using <a href="https://doi.org/10.1038/ng.3975" target="_blank">the Musical Chair algorithm</a>*, which conduct a similar
+    regression while selecting additional covariate to boost statistical power.
+    </p>
+    <p>
+        *Covariate selection for association screening in multiphenotype genetic studies.
+        <br>
+        <i>Nat Genet 49, 1789–1795 (2017). <a href="https://doi.org/10.1038/ng.3975" target="_blank">https://doi.org/10.1038/ng.3975</a></i>
+    </p>
+</mat-card>

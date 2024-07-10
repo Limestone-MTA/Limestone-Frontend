@@ -1,0 +1,33 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <h1>Register</h1>
+        </mat-card-header>
+        <mat-card-content>
+        <mat-form-field class="app-full-width" style="margin-bottom: 0%;">
+            <input id="mail" type="text" matInput formControlName="mail" placeholder="Mail" required/>
+            <mat-error *ngIf="mail.invalid">{{getErrorMessageMail()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="app-full-width">
+            <input id="password" name="password" [type]="hide ? 'password' : 'text'" matInput formControlName="password" placeholder="Password"/>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="password.invalid">{{getErrorMessagePassword()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="app-full-width">
+            <input id="confirmPassword" name="confirmPassword" [type]="hide_2 ? 'password' : 'text'" matInput formControlName="confirmPassword" placeholder="Confirm password"/>
+            <button mat-icon-button matSuffix (click)="hide_2 = !hide_2" [attr.aria-label]="'Hide confirmPassword'" [attr.aria-pressed]="hide_2" type="button">
+                <mat-icon>{{hide_2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="password.invalid">{{getErrorMessageConfirmPassword()}}</mat-error>
+        </mat-form-field>
+        </mat-card-content>
+        <div *ngIf="error" style="color: red; margin: auto; text-align: center;">{{ error }}</div>
+        <mat-card-actions class="app-center">
+        <button id="submit" type="submit" mat-button [disabled]="disabled">Create account</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
+<a routerLink="/signin" routerLinkActive="active" ariaCurrentWhenActive="page" class="link">Already registered ? Login here</a>
+  

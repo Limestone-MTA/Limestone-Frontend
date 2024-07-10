@@ -1,0 +1,61 @@
+<mat-card *ngIf="variable">
+    <mat-card-header>
+      <mat-card-title>
+        <span class="name" title="ID: {{variable.ident}}">{{variable.name}}</span>
+      </mat-card-title>
+      <mat-card-subtitle>Details view of the variable.
+        <app-help style="color: black; vertical-align: top;">
+          <div>
+              You can see details about your variable.
+              <div>&nbsp;</div>
+              For numerical variables you have some summary statistics.
+          </div>
+        </app-help>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>Type : {{variable.type}}</div>
+      <div *ngIf="variable.type != 'Text'">Mean = {{variable.mean}}</div>
+      <div [class]="variable.variance?'':'alert'" *ngIf="variable.type != 'Text'">Variance = {{variable.variance}}</div>
+      <div *ngIf="variable.kurtosisTest != -1">Kurtosis test p-value = {{variable.kurtosisTest}}</div>
+      <div *ngIf="variable.skewnessTest != -1">Skewness test p-value = {{variable.skewnessTest}}</div>
+      <div *ngIf="variable.normalTest != -1">Normality test p-value = {{variable.normalTest}}</div>
+      <div [class]="variable.excludedBcMissing?'alert':''">Number of missing values: {{variable.missing}} ({{variable.missingP}}%)</div>
+      <div *ngIf="variable.dataDistribution.length!=0">
+        <span>Data sample: </span>
+        <span *ngFor="let v of variable.dataDistribution" style="font-size: 1em" title="There is {{v.occurrence}} times the value {{v.value}}">"{{v.value}}" : {{v.occurrence}},&nbsp;</span>
+      </div>
+      <div *ngIf="variable.shrinked" [class]="variable.isExcludedBcLCR?'alert':''">
+        <span>Data sample : </span>
+        <span *ngFor="let v of variable.dataDistributionPostQC" style="font-size: 1em" title="In brackets the number of occurrence of this value.">
+          {{v.value}} ({{v.occurrence}}),&nbsp;
+        </span>
+      </div>
+      <mat-spinner *ngIf="!this.histData" style="margin: auto;"></mat-spinner>
+      <div *ngIf="this.noHistogram" style="color: red;">No Histogram for this variable : {{variable.type}} variable with more than 200 values</div>
+      <div *ngIf="this.histData">
+        <div *ngIf="this.histData.length!=0" class="distribution-histogram">
+          <ngx-charts-bar-vertical
+          [results]="histData"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"> 
+          </ngx-charts-bar-vertical>
+        </div>
+
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-icon-button (click)="move(-1)">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="move(1)">
+        <mat-icon aria-label="Next variable">keyboard_arrow_right</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>

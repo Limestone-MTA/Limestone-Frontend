@@ -1,0 +1,72 @@
+<div class="container">
+  <mat-list class="summary-data-list">
+    <mat-list-item>
+      <span matListItemTitle>Sample Size : {{project.sampleSize}}</span>
+    </mat-list-item>
+    <mat-list-item>
+      <span matListItemTitle>Missing values: {{project.numberOfMissingValues}}</span>
+    </mat-list-item>
+    <mat-list-item>
+      <div *ngIf="0<=project.cmsScore && project.cmsScore<0.3" style="width: 210px;">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <span class="material-symbols-outlined" style="color: orange; vertical-align: middle  ;">readiness_score</span>
+        <app-help style="vertical-align: top;">
+          <div>
+            Your dataset may not produce result with our algorithm Musical Chair, but can still be analyzed with the standard method.
+          </div>
+        </app-help>
+      </div>
+    </mat-list-item>
+    <!--<mat-list-item *ngIf="project.cmsScore">
+      <div style="width: 210px;">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <span *ngIf="0<=project.cmsScore && project.cmsScore<0.3" class="material-symbols-outlined" style="color: red; vertical-align: middle  ;">readiness_score</span>
+        <span *ngIf="0.3<=project.cmsScore && project.cmsScore<0.65" class="material-symbols-outlined" style="color: orange; vertical-align: middle;">readiness_score</span>
+        <span *ngIf="0.65<=project.cmsScore" class="material-symbols-outlined" style="color: green; vertical-align: middle;">readiness_score</span>
+        <span *ngIf="project.cmsScore>=0" style="vertical-align: middle;"> MC score: {{project.cmsScore.toFixed(3)}}</span>
+        <span *ngIf="project.cmsScore<0" style="vertical-align: middle;"> MC score : NA</span>
+        <app-help style="vertical-align: top;">
+          <div>
+              This score indicates how your data can produce interesting result using our algorithm : Musical Chair.
+          </div>
+          <div>&nbsp;</div>
+          <div>
+              If the score is higher than 0.6, we encourage you to add covariables in the variable selection step.
+          </div>
+          <div>&nbsp;</div>
+          <div>
+            The score is unavailable for dataset with more than 5000 columns.
+          </div>
+        </app-help>
+      </div>
+    </mat-list-item>-->
+  </mat-list>
+  <div class="data-type-help">
+    <app-help>
+        <div>
+            Variables are assigned a type depending on the data they have.
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            Text variables contains data represented by text and can not be analyze with linear regression.
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            Continuous variables are numerical data with more than 15 different values.
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            Ordinal variables are numerical data with less than 15 different values.
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            Binary variables are data with only 2 values.
+        </div>
+        <div>&nbsp;</div>
+        <div><b>Note:</b> you can see a more detailed explanation of data type in the Q&A section <a [routerLink]="['/QA']">here</a>.</div>
+    </app-help>
+  </div>
+  <div class="pie-pre-qc">
+    <ngx-charts-advanced-pie-chart [results]="project.dataSummary" label="variables"></ngx-charts-advanced-pie-chart>
+  </div>
+</div>

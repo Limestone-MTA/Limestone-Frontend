@@ -1,0 +1,22 @@
+.title {
+    margin: 1em;
+}
+
+.mat-icon {
+    vertical-align:text-bottom;
+}
+
+.search {
+    width: 95%;
+    margin: auto;
+    margin-bottom: 1.5em;
+}
+
+.table {
+    width: 95%;
+    margin: auto;
+}
+
+mat-paginator {
+    margin-top: 2em;
+}

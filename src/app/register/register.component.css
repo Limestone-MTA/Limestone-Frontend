@@ -1,0 +1,22 @@
+form {
+    width: 25%;
+    min-width: 400px;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.link {
+    display: block;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 2em;
+}
+mat-form-field .mat-form-field {
+    &-underline {
+      position: relative;
+      bottom: auto;
+    }
+    &-subscript-wrapper {
+      position: static;
+    }
+  }

@@ -1,0 +1,45 @@
+<mat-expansion-panel expanded>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Variables details
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <!--<button mat-icon-button  (click)="openRegexDialog()">
+    <mat-icon>live_help</mat-icon>
+  </button>-->
+  <mat-card-content>
+    <div class="search">
+      <mat-form-field style="width: 100%;">
+        <button matPrefix mat-icon-button aria-label="search">
+          <mat-icon>search</mat-icon>
+        </button>
+        <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Filter" #searchInput>
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value=''; applyFilter('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let row" (click)="openDialog(row)" class="pointer"> {{row.name}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="missing">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Missing </mat-header-cell>
+        <mat-cell *matCellDef="let row" (click)="openDialog(row)" title="{{row.missing}} missing values"> {{row.missingP}}% </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+        <mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.type}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="excluded">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Excluded</mat-header-cell>
+        <mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.excluded?'out':'in'}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSize]="pageSize" (page)="pageEvent($event)" [pageSizeOptions]="[10, 20, 100, 500]" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </mat-card-content>
+</mat-expansion-panel>

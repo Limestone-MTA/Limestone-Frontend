@@ -1,0 +1,11 @@
+<div style="margin:2em">
+    <h2 mat-dialog-title>Confirm account deletion</h2>
+    <mat-dialog-content>
+        <div style="font-size: 20px;">All the data and analysis regarding your account will be deleted. Are you sure ?</div>
+        <div>&nbsp;</div>
+    </mat-dialog-content>
+    <div style="display: flex; align-items: center;justify-content: center;">
+        <button id="upload" (click)="deleteProject()" color="warn" mat-raised-button style="margin: 1em;">Delete your account</button>
+        <button mat-raised-button [mat-dialog-close]="true" style="margin: 1em;">Cancel</button>
+    </div>
+</div>

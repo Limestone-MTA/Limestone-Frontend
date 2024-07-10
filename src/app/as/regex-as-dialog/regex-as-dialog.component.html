@@ -1,0 +1,48 @@
+<mat-card>
+    <mat-card-content>
+        <div>
+            Variables checked as :
+            <ul>
+                <li>
+                    <b>Outcomes</b> will be used as dependent variable;
+                </li>
+                <li>
+                    <b>Predictors</b> will be used as explanatory variable;
+                </li>
+                <li>
+                    <b>Confounders</b> will be systematically added as covariate.
+                </li>
+                <li>
+                    <b>Covariates</b> will be assessed by <i>Musical Chair&reg;</i> and some may be included in the regression model as covariates.
+                </li>
+            </ul>
+        </div>
+        <div>
+            <u>Note:</u> The covariates selected by
+            <i>Musical Chair&reg;</i> will be shown in the results page.
+        </div>
+        <div>&nbsp;</div>
+        <div>Search variables supports regular expressions:</div>
+        <ul>
+        <li>
+            <b>^ag</b> will show all variables starting with the string "ag" (age, agriculture...).
+        </li>
+        <li>
+            <b>er$</b> will show all variables ending with the string "er" (gender, ).
+        </li>
+        <li>
+            <b>gender|age</b> will show all variables including either "gender" or "age".
+        </li>
+        <li>
+            <b>*</b> means any character.
+        </li>
+        <li>
+            <b>^((?!age).)*$</b> will show all variables without the word age.
+        </li>
+        </ul>
+        <div>&nbsp;</div>
+        <div>For additional information on regular expressions,
+            <a target="_doc" href=" https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">click here</a>.
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,54 @@
+#tree-list {
+    padding-top: 15px;
+}
+
+#tree-list button {
+    padding-left: 0;
+}
+
+#project-header {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.show-delete-button {
+    margin-left: 1em;
+    padding: 0%;
+    .mat-icon {
+        margin: 0;
+        width: 25px;
+        scale: 1.3;
+    }
+}
+
+.delete-button {
+    padding: 0;
+    width: 25px;
+    height: 20px;
+    line-height: 20px;
+    min-width: unset;
+
+    .mat-icon {
+        margin: 0;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+    }
+    .material-icons {
+        font-size: 18px;
+    }
+}
+
+.action-button {
+    padding: 1.7em;
+    font-size: large;
+    margin: 1em;
+    margin-right: 1em;
+}
+
+.mat-button-blue {
+    background-color: #68B6EF;
+    color: #fff;
+}

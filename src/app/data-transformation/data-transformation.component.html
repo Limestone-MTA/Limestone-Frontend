@@ -1,0 +1,232 @@
+<mat-progress-bar mode="indeterminate" color="warn" *ngIf="!variables"></mat-progress-bar>
+<mat-card class="header">
+    <div *ngIf="dt" style="width: 80%;margin: auto;margin-top: 0.5em;">
+        <div style="margin-bottom: 0.5em;">
+            <button mat-button class="navigation-button" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_0</span>
+                Project
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/dt', dt.ident]" title="Go to Data Transformation (DT) {{dt.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_1</span>
+                Data Transformation
+            </button>
+            <button mat-button disabled class="navigation-disabled">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_2</span>
+                Quality Control
+            </button>
+            <button mat-button disabled class="navigation-disabled">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_3</span>
+                Variables Selection
+            </button>
+            <button mat-button disabled class="navigation-disabled">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_4</span>
+                Results
+            </button>
+        </div>
+        <mat-progress-bar mode="determinate" value="30"></mat-progress-bar>
+    </div>
+    <div class="dt-explanation">
+        <p style="font-size: medium;">
+            It is not possible to analyze text variables, this step allows you to transform text variable into numerical binary variable. 
+            <br/>You can also apply a mathematical transformation on your numercial continuous data.
+        </p>
+    </div>
+    <div class="dt-title">
+        <mat-card-header class="sub-headers">
+            Name of this data transformation
+        </mat-card-header>
+        <mat-form-field *ngIf="dt" subscriptSizing="dynamic" style="width: 100%; max-width: 500px;">
+            <input matInput type="text" placeholder="Name your Quality Control" [(ngModel)]="dt.name" name="name" required [readonly]="readonly" />
+            <button *ngIf="!readonly" matSuffix mat-icon-button aria-label="Clear" (click)="dt.name = ''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div class="action-button-container">
+        <mat-card-header class="sub-headers">
+            Actions
+        </mat-card-header>
+        <div class="save-duplicate-buttons">
+            <mat-spinner *ngIf="!error && isSaving"></mat-spinner>
+            <button mat-raised-button color="button-blue" (click)="saveAndGo()" [disabled]="isSaving" title="Save this transformations and go to the next step" class="action-button"><mat-icon>arrow_forward</mat-icon> Save and go to QC</button>
+            <button mat-raised-button color="button-blue" (click)="duplicate()" [disabled]="isSaving" title="Duplicate this Data Transformation (DT)" class="action-button"><mat-icon>content_copy</mat-icon> Duplicate</button>
+            <button mat-raised-button *ngIf="!readonly" color="button-blue" (click)="save()" [disabled]="isSaving" title="Save current changes made on this Data Transformation (DT)" class="action-button"><mat-icon>save</mat-icon> Save</button>
+        </div>
+    </div>
+    <div class="error" *ngIf="error">
+        {{ error }}
+    </div>
+</mat-card>
+
+<div [hidden]="emptyBinary">
+    <mat-card class="variables-list">
+        <mat-card-header>
+            <mat-card-title-group>
+            <mat-card-title>Transform to binary variable</mat-card-title>
+            </mat-card-title-group>
+        </mat-card-header>
+        <div class="search">
+            <mat-form-field style="width: 100%;">
+            <button matPrefix mat-icon-button aria-label="search">
+                <mat-icon>search</mat-icon>
+            </button>
+            <input matInput (keyup)="applyFilterBinary($any($event.target).value)" placeholder="Filter" #searchInput>
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value=''; applyFilterBinary('')">
+                <mat-icon>close</mat-icon>
+            </button>
+            </mat-form-field>
+        </div>
+        <mat-card-content>
+            <mat-table [dataSource]="binaryDataSource" matSort>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let row" (click)="openDialogBinary(row)" class="pointer"> {{row.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                <button *ngIf="row.transform=='Nothing'" mat-raised-button color="button-blue" (click)="binaryTransform(row)">Transform to binary</button>
+                <p *ngIf="row.transform!='Nothing'" style="margin: 0;">Transformed with : "{{row.dataDistribution[0].value}}" as {{row.dataDistribution[0].occurrence}} 
+                     and "{{row.dataDistribution[1].value}}" as {{row.dataDistribution[1].occurrence}}.</p>
+                <button *ngIf="row.transform!='Nothing'" mat-raised-button color="warn" (click)="cancelTransformation(row)" style="margin-left: 1em;">Cancel</button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsText"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsText;"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSize]="pageSizeBinary" (page)="pageEvent($event)" [pageSizeOptions]="[10, 20, 100, 500]" [showFirstLastButtons]="true">
+            </mat-paginator>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div [hidden]="emptyOrdinal">
+    <mat-card class="variables-list">
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title>
+                    Transform to multiple binary variables
+                    <button *ngIf="!ordinalTransformationApplied" mat-raised-button color="button-blue" (click)="transformOrdinalAll()">Transform all</button>
+                    <button *ngIf="ordinalTransformationApplied" mat-raised-button color="warn" (click)="cancelTransformOrdinalAll()">Cancel all</button>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    You can transform text variable to binary variables if they have less than 50 differents values.
+                </mat-card-subtitle>
+            </mat-card-title-group>
+        </mat-card-header>
+        <div class="search">
+            <mat-form-field style="width: 100%;">
+            <button matPrefix mat-icon-button aria-label="search">
+                <mat-icon>search</mat-icon>
+            </button>
+            <input matInput (keyup)="applyFilterOrdinal($any($event.target).value)" placeholder="Filter" #searchInput>
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value=''; applyFilterOrdinal('')">
+                <mat-icon>close</mat-icon>
+            </button>
+            </mat-form-field>
+        </div>
+        <mat-card-content>
+            <mat-table [dataSource]="ordinalDataSource" matSort>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let row" (click)="openDialogOrdinal(row)" class="pointer"> {{row.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button *ngIf="row.transform=='Nothing' && row.nbOfValues <= 50" mat-raised-button color="button-blue" (click)="transformOrdinal(row)">Transform to binary</button>
+                    <p *ngIf="row.transform=='Nothing' && row.nbOfValues > 50" style="margin: 0;">More than 50 differents values, cannot transform.</p>
+                    <p *ngIf="row.transform!='Nothing'" style="margin: 0;">Transformed into {{row.nbOfValues}} binary variables.</p>
+                    <button *ngIf="row.transform!='Nothing'" mat-raised-button color="warn" (click)="cancelTransformation(row)" style="margin-left: 1em;">Cancel</button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsText"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsText;"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSize]="pageSizeOrdinal" (page)="pageEvent($event)" [pageSizeOptions]="[10, 20, 100, 500]" [showFirstLastButtons]="true">
+            </mat-paginator>
+        </mat-card-content>
+    </mat-card>
+</div>
+<div [hidden]="emptyContinuous">
+    <mat-card class="variables-list">
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title>Apply a mathematical transformation</mat-card-title>
+                <mat-card-subtitle>
+                    You can apply a mathematical transformation on continuous data
+                </mat-card-subtitle>
+            </mat-card-title-group>
+        </mat-card-header>
+        <div class="search"  *ngIf="!selection.selected.length">
+            <mat-form-field style="width: 100%;">
+            <button matPrefix mat-icon-button aria-label="search">
+                <mat-icon>search</mat-icon>
+            </button>
+            <input matInput (keyup)="applyFilterContinuous($any($event.target).value)" placeholder="Filter" #searchInput>
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value=''; applyFilterContinuous('')">
+                <mat-icon>close</mat-icon>
+            </button>
+            </mat-form-field>
+        </div>
+        <mat-card-content>
+            <mat-toolbar *ngIf="selection.selected.length" style="background-color: white;">
+                <mat-toolbar-row>
+                    <span class="spacer">{{ selection.selected.length }} variable{{ selection.selected.length > 1 ? 's' : '' }} selected.</span>
+                    <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedTransformation">
+                        <mat-radio-button value="Nothing" (change)="transformationChange($event)" style="margin-right: 5em;"> None</mat-radio-button>
+                        <mat-radio-button value="Logarithmic" (change)="transformationChange($event)" style="margin-right: 4em;">Logarithmic</mat-radio-button>
+                        <mat-radio-button value="Normalization" (change)="transformationChange($event)" style="margin-right: 1em;">Normalization</mat-radio-button>
+                      </mat-radio-group>
+                    <button matSuffix mat-icon-button aria-label="Close selection" (click)="selection.clear(); applyFilter('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <mat-table [dataSource]="continuousDataSource" matSort>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef style="text-align: center;">
+                        Select all
+                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let row" (click)="openDialogContinuous(row)" class="pointer"> {{row.name}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Nothing">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>None</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (change)="change(row, 'Nothing', $event)" [checked]="row.transform=='Nothing'" [disabled]="readonly"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Logarithmic">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Logarithmic </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (change)="change(row, 'Logarithmic', $event)" [checked]="row.transform=='Logarithmic'" [disabled]="readonly"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Normalization">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Rank-Based INT </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (change)="change(row, 'Normalization', $event)" [checked]="row.transform=='Normalization'" [disabled]="readonly"> </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumnsContinuous"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsContinuous;"></mat-row>
+            </mat-table>
+        </mat-card-content>
+        <mat-paginator [pageSize]="pageSizeContinuous" (page)="pageEvent($event)" [pageSizeOptions]="[10, 20, 100, 500]" [showFirstLastButtons]="true">
+        </mat-paginator>
+    </mat-card>
+</div>

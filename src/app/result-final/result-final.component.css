@@ -1,0 +1,99 @@
+.bold {
+    font-weight: bold;
+  }
+
+.header{
+  margin : 15px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.sub-headers{
+  padding: 0%;
+  margin-bottom: 0.5em;
+  font-size: large;
+}
+
+.navigation-button {
+    width: 20%;
+    color: #3E50B4;
+    font-size:large;
+}
+
+.material-symbols-outlined {
+    vertical-align: middle;
+    font-size:xx-large;
+}
+
+.result-explanation {
+  width: 70%;
+  min-width: 300px;
+  margin: 0.5em;
+  padding: 1em;
+  font-size: medium;
+}
+
+.action-button-container {
+  margin: 0.5em;
+  padding: 1em;
+  width: 20%;
+}
+
+.search {
+  min-height: 64px;
+  padding-top: 8px;
+}
+
+.mat-column-MAbeta, .mat-column-MAp, .mat-column-MCbeta, .mat-column-MCp {
+  max-width: 8%;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.mat-row, .mat-header-row {
+  padding: 0;
+}
+
+.mat-column-view {
+  max-width: 40px;
+}
+
+.mat-column-out, .mat-column-pred, .mat-column-outcome, .mat-column-predictor {
+  cursor: pointer;
+  margin: 0 0.4em;
+}
+
+.mat-column-m1, .mat-column-m2 {
+  max-width: 16%;
+  cursor: pointer;
+}
+
+mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child {
+  padding-left: 0;
+}
+
+.download-button {
+  margin: 1em;
+  text-align: right;
+}
+
+.mat-button-blue {
+  background-color: #68B6EF;
+  color: #fff;
+}
+
+.warnings-button {
+  float: right;
+  margin-right: 2em;
+}
+
+button[value="0"] {
+  color: green;
+}
+button[value="1"] {
+  color: orange;
+}
+button[value="2"] {
+  color: red;
+}
+

@@ -1,0 +1,9 @@
+.container {
+    column-count: 2;
+}
+
+.text-column {
+    text-align: center;
+    font-size: large;
+    color: black;
+}

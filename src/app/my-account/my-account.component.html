@@ -1,0 +1,21 @@
+<mat-card class="change-password">
+    <mat-card-header>
+        <mat-card-title>Change your password</mat-card-title>
+    </mat-card-header>
+    <mat-card-actions class="app-center">
+        <button class="button-change-password" color="button-blue" mat-raised-button (click)="sendChangePassword()" [disabled]="disabled_change">Change password</button>
+    </mat-card-actions>
+    <div class="app-center">
+        <mat-spinner *ngIf="disabled_change" diameter="50" style="margin-bottom: 0.7em;"></mat-spinner>
+        <p *ngIf="message_change" style="font-size: 20px; margin: 1em; text-align: center;">{{ message_change }}</p>
+    </div>
+</mat-card>
+<mat-card class="delete-account">
+    <mat-card-header>
+        <mat-card-title>Delete your account</mat-card-title>
+        <mat-card-subtitle>Your account and all project you created will be deleted from our server. You won't be able to recover any projects after the deletion.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions class="app-center">
+        <button class="button-delete-account" color="warn" mat-raised-button (click)="sendDeleteAccount()">Delete account</button>
+    </mat-card-actions>
+</mat-card>

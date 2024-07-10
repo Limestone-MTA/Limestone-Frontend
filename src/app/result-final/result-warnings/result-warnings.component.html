@@ -1,0 +1,56 @@
+<mat-card-title class="title">Warnings ({{nbWarnings}}) and Errors ({{nbErrors}})</mat-card-title>
+<div class="search">
+    <mat-form-field style="width: 100%;" subscriptSizing="dynamic">
+        <button matPrefix mat-icon-button aria-label="search">
+            <mat-icon>search</mat-icon>
+        </button>
+        <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Filter" #searchInput />
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value = ''; applyFilter('')">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+<div class="table" [hidden]="nbErrors==0">
+    <mat-card-title>
+        <mat-icon style="color: red;">warning</mat-icon>
+        Not analyzed ({{nbErrors}})
+    </mat-card-title>
+    <mat-table [dataSource]="dataSourceErrors">
+        <ng-container matColumnDef="out">
+            <mat-header-cell *matHeaderCellDef> Outcome </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.out"> {{ v.out }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pred">
+            <mat-header-cell *matHeaderCellDef> Predictor </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.pred"> {{ v.pred }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="message">
+            <mat-header-cell *matHeaderCellDef> Message </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.message"> {{ v.message }} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumnsErrors"></mat-header-row>
+        <mat-row *matRowDef="let v; columns: displayedColumnsErrors"></mat-row>
+    </mat-table>
+    <mat-paginator #paginatorErrors="matPaginator" [pageSize]="pageSizeErrors" (page)="pageEventErrors($event)" [pageSizeOptions]="[5, 10, 20, 50]" [length]="nbErrors" [showFirstLastButtons]="true"> </mat-paginator>
+</div>
+
+<div class="table" [hidden]="nbWarnings==0">
+    <mat-card-title>
+        <mat-icon style="color: orange;">warning</mat-icon>
+        Partially analyzed ({{nbWarnings}})
+    </mat-card-title>
+    <mat-card-subtitle>For these analysis no covariables have been selected and only the standard regression is computed</mat-card-subtitle>
+    <mat-table [dataSource]="dataSourceWarnings">
+        <ng-container matColumnDef="out">
+            <mat-header-cell *matHeaderCellDef> Outcome </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.out"> {{ v.out }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pred">
+            <mat-header-cell *matHeaderCellDef> Predictor </mat-header-cell>
+            <mat-cell *matCellDef="let v" [title]="v.pred"> {{ v.pred }} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumnsWarnings"></mat-header-row>
+        <mat-row *matRowDef="let v; columns: displayedColumnsWarnings"></mat-row>
+    </mat-table>
+    <mat-paginator #paginatorWarnings="matPaginator" [pageSize]="pageSizeWarnings" (page)="pageEventWarnings($event)" [pageSizeOptions]="[5, 10, 20, 50]" [length]="nbWarnings" [showFirstLastButtons]="true"> </mat-paginator>
+</div>

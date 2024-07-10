@@ -1,0 +1,33 @@
+<form [formGroup]="newCollaboratorForm">
+    <div style="margin:2em">
+        <h2 mat-dialog-title>Manage collaborators</h2>
+        <mat-dialog-content>
+            <div>Use the e-mail address of the collaborator you want to add on this project</div>
+            <div>&nbsp;</div>
+        </mat-dialog-content>
+        <mat-form-field class="app-center">
+            <input id="mail" type="text" matInput formControlName="mail" placeholder="Mail of collaborator to add" />
+        </mat-form-field>
+        <div *ngIf="error" style="color: red; margin: 1em 0;">{{ error }}</div>
+        <div *ngIf="done" style="color: green; margin: 1em 0;">{{ "The user has been added" }}</div>
+        <mat-card-actions class="app-center">
+            <button id="upload" (click)="onSubmit()" mat-raised-button>Add a collaborator</button>
+        </mat-card-actions>
+        <h2 style="margin-left:1.2em">List of current collaborator :</h2>
+        <mat-table *ngIf="dataSource" [dataSource]="dataSource" matSort >
+            <ng-container matColumnDef="mail">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Mail </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="remove">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button mat-raised-button (click)="Remove(row)" color="warn" matTooltip="Remove a collaborator">Remove this collaborator</button>
+                  </mat-cell>
+            </ng-container>
+            <div *ngIf="error" style="color: red; margin: 1em 0;">{{ error }}</div>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+</form>

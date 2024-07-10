@@ -1,0 +1,29 @@
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <h1>Login</h1>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field class="app-full-width">
+                <input id="login" type="text" matInput formControlName="login" placeholder="Mail" />
+            </mat-form-field>
+            <mat-form-field class="app-full-width">
+                <input id="password" [type]="hide ? 'password' : 'text'" matInput formControlName="password" placeholder="Password" />
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide confirmPassword'" [attr.aria-pressed]="hide" type="button">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </mat-card-content>
+        <div *ngIf="error" style="color: red; margin: 1em;">{{ error }}</div>
+        <mat-card-actions class="app-center">
+            <button id="submit" type="submit" mat-button [disabled] = "waiting">Connect</button>
+            <mat-spinner *ngIf="waiting" style="text-align: center;"></mat-spinner>
+        </mat-card-actions>
+    </mat-card>
+</form>
+<div class="link">
+    <a routerLink="/register" routerLinkActive="active" ariaCurrentWhenActive="page">Sign up for Limestone</a>
+    &middot;
+    <a routerLink="/forgot-password" routerLinkActive="active" ariaCurrentWhenActive="page">Forgot password?</a>
+</div>
+  

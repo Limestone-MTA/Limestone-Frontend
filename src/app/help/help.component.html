@@ -1,0 +1,8 @@
+<mat-menu #appMenu="matMenu">
+    <div style="padding: 7px 15px;">
+      <ng-content></ng-content>
+    </div>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu" class="help-button">
+    <mat-icon>live_help</mat-icon>
+  </button>

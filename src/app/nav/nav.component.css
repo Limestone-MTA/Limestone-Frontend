@@ -1,0 +1,26 @@
+.mat-button {
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.text-button {
+    padding-bottom: 0.5em;
+    width: 10%;
+    font-size: large;
+}
+
+.icon-button {
+    width: 5%;
+}
+
+.mat-icon {
+    transform: scale(1.3);
+}
+.sep {
+    width: initial;
+}
+
+.nav-toolbar {
+    margin-bottom: 0.5em;
+}

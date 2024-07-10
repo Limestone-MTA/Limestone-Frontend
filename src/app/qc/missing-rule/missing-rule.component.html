@@ -1,0 +1,19 @@
+<div class="charts">
+  <div *ngIf="qc.tooManyMissingCount">{{qc.tooManyMissingCount}} variables will be excluded because they have more than {{qc.missingThreshold}} missing data out
+    of {{project.sampleSize}} ({{perc}}%).
+  </div>
+  <div *ngIf="!qc.tooManyMissingCount && !disableMissingRule" >No variable to exclude because no variable have more than {{qc.missingThreshold}} missing data ({{perc}}%).</div>
+  <div *ngIf="!qc.tooManyMissingCount && disableMissingRule">No missing values in the data.</div>
+  <div class="slider-container">
+    <mat-slider class="slider" min="0" [max]="project.sampleSize/2"  [disabled]="disableMissingRule || readonly" ngDefaultControl>
+      <input matSliderThumb (input)="missingValuesOnSliderChange($event.target)" [(ngModel)]="qc.missingThreshold">
+    </mat-slider>
+    <mat-form-field class="example-margin example-width">
+      <mat-label>Value</mat-label>
+      <input class="slider-input" matInput type="number" [(ngModel)]="qc.missingThreshold" name="missingThreshold" (change)="missingValuesOnInputChange($event.target)" [readonly]="readonly" [disabled] = "disableMissingRule"/>
+    </mat-form-field>
+  </div>
+  <ngx-charts-line-chart [results]="multi" [xAxis]="showDetails" [yAxis]="showDetails" [tooltipDisabled]="tooltipDisabled"
+    [showXAxisLabel]="showDetails" [showYAxisLabel]="showDetails" xAxisLabel="Variables" [yScaleMax]="project.sampleSize/2" yAxisLabel="Number of missing values">
+  </ngx-charts-line-chart>
+</div>

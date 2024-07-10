@@ -1,0 +1,233 @@
+<mat-card class="header">
+    <div style="width: 80%;margin: auto;margin-top: 0.5em;">
+        <div style="margin-bottom: 0.5em;">
+            <button mat-button class="navigation-button" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_0</span>
+                Project
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/dt', dt.ident]" title="Go to Data Transformation (DT) {{dt.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_1</span>
+                Data Transformation
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/qc', qc.ident]" title="Go to Quality Control (QC) {{qc.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_2</span>
+                Quality Control
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/as', ass.ident]" title="Go to Analysis Settings (AS) {{ass.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_3</span>
+                Variables Selection
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/r', result.ident]" title="Go to result {{result.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_4</span>
+                Results
+            </button>
+        </div>
+        <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+    </div>
+    <div *ngIf="!noResults" class="result-explanation">
+        <mat-card-header class="sub-headers">
+            How to read the results ?
+        </mat-card-header>      
+        <p>
+            Continuous outcomes were analyzed using linear regression while binary outcomes were analyzed using logistic regression.
+            <br/>Two models were evaluated:
+        </p>
+        <ul>
+            <li>The standard model (STD) uses only user-specified confounding factors.</li>
+            <li>The second model (MC) also includes covariates identified by the <i>MusicalChair&trade;</i> algorithm for each predictor-outcome pair.</li>
+        </ul>
+        <p>
+            After <a href="https://en.wikipedia.org/wiki/Bonferroni_correction" target="wiki">Bonferroni</a> correction for multiple testing with {{ summary.total }} tests performed, 
+            there are <b>{{ summary.bonferroni }}</b> tests that remain significant with a Pavlue: <b>P&lt; <span title="{{ summary.Pvalue }}">{{ summary.Pvalue | scientific: 3 }}</span></b>
+        </p>
+    </div>
+    <div *ngIf="!noResults" class="action-button-container">
+        <mat-card-header class="sub-headers">
+            Actions
+        </mat-card-header>
+        <div class="download-button">
+            <button mat-raised-button (click)="download()" title="Download the result file" color="button-blue" style="min-height: 50px;"><mat-icon>file_download</mat-icon> Download result</button>
+        </div>
+    </div>
+</mat-card>
+<div [hidden]="noResults">
+    <mat-card class="view-container">
+        <mat-card-header>
+            <mat-card-title>Results</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <!--<div>
+                <span>Data processing started at: {{ analyse.progress.startTime | date: 'medium' }}</span>
+                <span> and finished at: {{ analyse.progress.endTime | date: 'medium' }}</span
+                >.
+            </div>
+            <div>
+                Limestone tested for associations between {{ distrib.predictor }} predictors, {{ distrib.outcome }} outcomes and {{ distrib.confounders }} confounders for a total of
+                {{ summary.total }} tests.
+            </div>
+            <div>There are {{ summary.nominallySignificantAssoc }} nominally significant association tests(P&lt;{{ summary.nominallyLimit }}):</div>
+            <div class="mta-spacebottom">
+                Continuous outcomes were analyzed using linear regression while binary outcomes were analyzed using logistic regression.<br/> Two models have been evaluated. First model (M1) uses only
+                user-specified confounding factors. The second model (M2) also includes covariates identified by the <i>MusicalChair&trade;</i> algorithm for each predictor-outcome pair.
+            </div>
+            <div>&nbsp;</div>
+            <div>
+                There are {{ summary.bonferroni }} tests that remain significant after
+                <a href="https://en.wikipedia.org/wiki/Bonferroni_correction" target="wiki">Bonferroni</a>
+                correction for multiple testing (P&lt;
+                <span title="{{ summary.Pvalue }}">{{ summary.Pvalue | scientific: 3 }}</span> corresponding to {{ summary.total }} tests performed).
+            </div>
+            <mat-table [dataSource]="summary.nominally" *ngIf="analyse?.completed && summary.nominally.length">
+                <ng-container matColumnDef="outcome">
+                    <mat-header-cell *matHeaderCellDef> Outcome </mat-header-cell>
+                    <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.out"> {{ v.out }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="predictor">
+                    <mat-header-cell *matHeaderCellDef> Predictor </mat-header-cell>
+                    <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.pred"> {{ v.pred }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="m1">
+                    <mat-header-cell *matHeaderCellDef>
+                        Pval
+                        <sub>M1</sub>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let v" (click)="snack(v.MAp)" [title]="v.MAp">
+                        <span [class]="v.MAp >= v.MCp ? '' : 'bold'"> {{ v.MAp | scientific: 3 }} </span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="m2">
+                    <mat-header-cell *matHeaderCellDef>
+                        Pval
+                        <sub>M2</sub>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let v" (click)="snack(v.MCp)" [title]="v.MCp">
+                        <span [class]="v.MCp >= v.MAp ? '' : 'bold'"> {{ v.MCp | scientific: 3 }} </span>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="summary?.displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: summary?.displayedColumns"></mat-row>
+            </mat-table>-->
+            <div [hidden]="!hideGraphic">
+                <div style="margin: 1em;">
+                    <b>Complete table with effect estimates (&beta;) and P-value for Model 1 and Model 2</b>
+                    <button mat-raised-button (click)="changeDisplay()" style="float: right;">
+                        <mat-icon>show_chart</mat-icon> Show graphic
+                    </button>
+                    <button mat-raised-button (click)="openWarnings()" [value]="warningsLevel" [hidden]="warningsLevel==0" class="warnings-button">
+                        <mat-icon>warning</mat-icon> Warnings
+                    </button>
+                    <button mat-button disabled="true" [hidden]="warningsLevel!=0" class="warnings-button" value="0">No warnings</button>
+                </div>
+                <div class="search">
+                    <mat-form-field style="width: 100%;" subscriptSizing="dynamic">
+                        <button matPrefix mat-icon-button aria-label="search">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                        <input matInput (keyup)="applyFilter($any($event.target).value)" placeholder="Filter" #searchInput />
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value = ''; applyFilter('')">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+                <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="MCp" matSortDirection="asc">
+                    <ng-container matColumnDef="view">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+                        <mat-cell *matCellDef="let v" (click)="openDialog(v)">
+                            <button matPrefix mat-icon-button aria-label="search">
+                                <mat-icon>query_stats</mat-icon>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="out">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Outcome </mat-header-cell>
+                        <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.out"> {{ v.out }} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="pred">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Predictor </mat-header-cell>
+                        <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.pred"> {{ v.pred }} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="MAbeta">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            &beta;
+                            <sub>STD</sub>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.MAbeta"> {{ v.MAbeta | scientific: 3 }} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="MAp">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header style="border-right: thin solid lightgray; text-align: center;">
+                            Pval
+                            <sub>STD</sub>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.MAp" style="border-right: thin solid lightgray; text-align: center;">
+                            <span [class]="v.MAp >= v.MCp ? '' : 'bold'"> {{ v.MAp | scientific: 3 }} </span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="MCbeta">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            &beta;
+                            <sub>MC</sub>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.MCbeta"> {{ v.MCbeta | scientific: 3 }} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="MCp">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Pval
+                            <sub>MC</sub>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let v" (click)="openDialog(v)" [title]="v.MCp">
+                            <span [class]="v.MCp >= v.MAp ? '' : 'bold'"> {{ v.MCp | scientific: 3 }} </span>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let v; columns: displayedColumns"></mat-row>
+                </mat-table>
+                <mat-paginator [pageSize]="pageSize" (page)="pageEvent($event)" [pageSizeOptions]="[10, 20, 100, 500]" [showFirstLastButtons]="true"> </mat-paginator>
+            </div>
+                <div [hidden]="hideGraphic">
+                <div style="margin: 1em;">
+                    <b>Figure. –log10(P-value) for each predictor-outcome pair</b>
+                    <button mat-raised-button (click)="changeDisplay()" style="float: right;">
+                        <mat-icon>table_chart</mat-icon> Show table
+                    </button>
+                </div>
+                <div>
+                    P-value are plotted for each outcome-predictor association. The size of the circle shows the difference between the two models. <br/>
+                    A red circle indicates a better result with <i>Musical Chair&reg;</i>. A blue circle indicates a better result with the standard approch
+                </div>
+                <div style="width:100%; height:300px;">
+                    <ngx-charts-bubble-chart
+                        [results]="chartsData"
+                        [xAxis]="showDetails"
+                        [yAxis]="showDetails"
+                        [showXAxisLabel]="showDetails"
+                        [showYAxisLabel]="showDetails"
+                        xAxisLabel="Tests"
+                        yAxisLabel="-log10(P)"
+                        (select)="onSelect($any($event))"
+                    >
+                        <ng-template #tooltipTemplate let-model="model">
+                            Click to have more informations.
+                        </ng-template>
+                    </ngx-charts-bubble-chart>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+<mat-card *ngIf="noResults" class="view-container">
+    <mat-card-header>
+        <mat-card-title>No results available</mat-card-title>
+        <mat-card-subtitle>Your analysis didn't give any results. You can check the warnings and errors to learn more about the reasons.
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <button mat-raised-button (click)="openWarnings()" [value]="2" style="margin: 1em;">
+            <mat-icon>warning</mat-icon> Warnings and Errors
+        </button>
+    </mat-card-content>
+</mat-card>

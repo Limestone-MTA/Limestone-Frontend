@@ -1,0 +1,31 @@
+.search {
+    min-height: 64px;
+    padding: 0;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.mat-column-name {
+    cursor: pointer;
+}
+
+.mat-column-select {
+    overflow: initial;
+    max-width: 120px;
+    justify-content: flex-end;
+}
+
+.mat-column-missing, .mat-column-type, .mat-column-excluded {
+    max-width: 15%;
+    cursor: pointer;
+}
+
+.mass-select {
+    flex: 1;
+}
+
+mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child {
+    padding-left: 0;
+}

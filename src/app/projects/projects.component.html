@@ -1,0 +1,34 @@
+<mat-progress-bar mode="indeterminate" color="warn" *ngIf="!projects"></mat-progress-bar>
+<mat-list *ngIf="projects?.length" style="margin-left: 1em;">
+  <h1 matSubheader>
+    Projects
+    <button mat-icon-button title="Refresh projects list" (click)="refresh()">
+      <mat-icon>cached</mat-icon>
+    </button>
+  </h1>
+</mat-list>
+<mat-card *ngIf="!projects?.length" class="no-project">
+  <mat-card-header>
+    <mat-card-title>No project created yet.</mat-card-title>
+  </mat-card-header>
+  <mat-card-content> </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="newProject()">Create a project</button>
+  </mat-card-actions>
+</mat-card>
+<mat-accordion *ngIf="projects?.length">
+  <mat-expansion-panel *ngFor="let project of projects" class="view-container">
+    <mat-expansion-panel-header [collapsedHeight]="'60px'">
+      <mat-panel-title style="font-size: large;"> {{ project.name }}</mat-panel-title>
+      <mat-panel-description style="flex: none">
+        <small>{{ project.updated | date: 'medium' }}</small>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-project-detail [projects]="projects" [project]="project"></app-project-detail>
+  </mat-expansion-panel>
+</mat-accordion>
+<button *ngIf="projects?.length" color="button-blue" mat-raised-button (click)="newProject()" class="create-project">Create a new project</button>
+<div>&nbsp;</div>
+<!--<button id="add-new-project" class="new" *ngIf="projects?.length" mat-fab (click)="newProject()" title="Create a project">
+  <mat-icon>add</mat-icon>
+</button>-->

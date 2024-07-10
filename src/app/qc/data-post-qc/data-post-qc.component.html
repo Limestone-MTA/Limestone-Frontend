@@ -1,0 +1,18 @@
+<div class="container">
+  <mat-list style="min-width: 300px;">
+    <mat-list-item>
+      <span matListItemTitle>Sample Size : {{project.sampleSize}}</span>
+    </mat-list-item>
+    <mat-list-item>
+      <span matListItemTitle>Number of missing values: {{qc.totalMissing}}</span>
+    </mat-list-item>
+    <mat-list-item lines="3">
+      <span matListItemTitle>Number of variables excluded : {{qc.noVarianceCount + qc.ruleCount}}</span>
+      <span>{{qc.noVarianceCount}} variables always have the same value. {{qc.ruleCount}} variables are excluded by at least one rule. 
+      </span>
+    </mat-list-item>
+  </mat-list>
+  <div class="pie-pre-qc">
+    <ngx-charts-advanced-pie-chart [results]="results" label="variables"> </ngx-charts-advanced-pie-chart>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+mat-form-field.app-full-width {
+  width: 100%;
+}
+
+button.new {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+.app-center {
+  display: grid !important;
+  justify-items: center;
+}
+
+.tree-indent {
+  padding-left: 1em;
+}
+
+mat-dialog-container {
+  padding: 0 !important;
+}
+
+@media (min-width: 800px) {
+  .view-container {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+  }
+}
+
+.mat-card-header-text {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.material-icons {
+  opacity: 0.6;
+}

@@ -1,0 +1,13 @@
+.slider-container {
+    display: flex;
+}
+
+
+.slider {
+    flex: 4 auto;
+}
+
+.slider-input {
+    flex: 1 0;
+    margin-left: 1em;
+}

@@ -1,0 +1,35 @@
+.container {
+    padding: 24px;
+}
+
+.charts {
+    height: 400px;
+}
+
+.mat-column-select {
+    overflow: initial;
+    max-width: 46px;
+}
+
+.mat-column-varExplained,
+.mat-column-oddsRatio,
+.mat-column-beta,
+.mat-column-sd,
+.mat-column-pval {
+    max-width: 15%;
+}
+
+.mat-column-varExplained {
+    margin-left: 1em;
+}
+
+mat-cell:first-child,
+mat-footer-cell:first-child,
+mat-header-cell:first-child {
+    padding-left: 0;
+    margin-right: 1em;
+}
+
+.toggle {
+    float: right;
+}

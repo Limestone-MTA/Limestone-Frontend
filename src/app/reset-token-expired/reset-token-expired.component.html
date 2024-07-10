@@ -1,0 +1,19 @@
+<form [formGroup]="forgotPasswordForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header style="display: block;">
+            <h1>Your reset token has expired !</h1>
+            <p>Enter your mail address again to reset your password</p>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field class="app-full-width">
+                <input id="mail" type="text" name="mail" matInput formControlName="mail" placeholder="Mail"/>
+                <mat-error *ngIf="mail.invalid">{{getErrorMessageMail()}}</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+        <div *ngIf="error" style="color: red; margin: auto;">{{ error }}</div>
+        <mat-card-actions class="app-center">
+            <button id="submit" type="submit" mat-button>Resend email</button>
+        </mat-card-actions>
+        <p *ngIf="message" style="font-size: 20px;margin: 1em;">{{ message }}</p>
+    </mat-card>
+</form>

@@ -1,0 +1,24 @@
+<h2 mat-dialog-title style="text-align: center;">Choose an analysis</h2>
+<div class="container">
+    <p>
+      <mat-dialog-content class="text-column" style="border-right:1px solid black">
+        <div>Do you want to go straight to a result and let Limestone&reg; configure your analysis? Then the "simplified analysis" is for you.</div>
+      </mat-dialog-content>
+    </p>
+    <p>
+      <mat-dialog-content class="text-column">
+        <button mat-raised-button (click)="simplified(project)" [disabled]="disabled">Simplified analysis (1 step)</button>
+      </mat-dialog-content>
+    </p>
+    <p>
+      <mat-dialog-content class="text-column">
+        <div>Do you want a thorough understanding of the changes applied to your data? Then the "advanced analysis" is for you.</div>
+      </mat-dialog-content>
+    </p>
+    <p>
+      <mat-dialog-content class="text-column">
+        <button mat-raised-button mat-dialog-close="OK" (click)="advanced(project)" [disabled]="disabled">Advanced analysis (3 steps)</button>
+      </mat-dialog-content>
+    </p>
+      <mat-spinner *ngIf="disabled" style="margin: 2em"></mat-spinner>
+  </div>

@@ -1,0 +1,45 @@
+.upload-file-tips {
+    margin-top: 1em;
+    margin-bottom: 3em;
+    margin-right: 1em;
+    margin-left: 1em;
+    padding: 1em;
+    font-size: 20px;
+}
+
+.header {
+    text-align: center;
+}
+
+.list-element {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    line-height: 1.3em;
+}
+
+.img-responsive {
+    display: block;
+    margin: auto;
+    width:80%;
+    height:80%;
+}
+
+.column {
+    float: left;
+    width: 50%;
+  }
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+    table-layout: fixed;
+    padding: 0.5%;
+}
+
+td {
+    background-color: #F3F6F6;
+}

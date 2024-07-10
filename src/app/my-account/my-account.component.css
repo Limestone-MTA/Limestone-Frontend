@@ -1,0 +1,17 @@
+.change-password, .delete-account{
+    width: 75%;
+    min-height: 250px;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.button-change-password, .button-delete-account {
+    margin-top: 50px;
+    height: 50px;
+
+}
+
+.mat-button-blue {
+    background-color: #68B6EF;
+    color: #fff;
+  }

@@ -1,0 +1,78 @@
+<mat-card *ngIf="variable">
+    <mat-card-header>
+      <mat-card-title>
+        <span class="name" title="ID: {{variable.ident}}">{{variable.name}}</span>
+      </mat-card-title>
+      <mat-card-subtitle>
+        Details of the variable.
+        <app-help style="color: black; vertical-align: top;">
+          <div>
+              You can see details about your variable.
+              <div>&nbsp;</div>
+              For numerical variables you have some summary statistics.
+          </div>
+        </app-help>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>Type : {{variable.type}}</div>
+      <div *ngIf="variable.type != 'Text'">Mean = {{variable.mean}}</div>
+      <div [class]="variable.variance?'':'alert'" *ngIf="variable.type != 'Text'">Variance = {{variable.variance}}</div>
+      <div *ngIf="variable.kurtosisTest != -1">Kurtosis test p-value = {{variable.kurtosisTest}}</div>
+      <div *ngIf="variable.skewnessTest != -1">Skewness test p-value = {{variable.skewnessTest}}</div>
+      <div *ngIf="variable.normalTest != -1">Normality test p-value = {{variable.normalTest}}</div>
+      <div [class]="variable.excludedBcMissing?'alert':''">Number of missing values: {{variable.missing}}</div>
+      <div>&nbsp;</div>
+      <div *ngIf="variable.type != 'Text'">
+        <span>Data sample: </span>
+        <span *ngFor="let v of variable.dataDistribution" style="font-size: 1em" title="There is {{v.occurrence}} times the value {{v.value}}">{{v.value}} ({{v.occurrence}}),&nbsp;</span>
+      </div>
+      <div *ngIf="variable.shrinked" [class]="variable.isExcludedBcLCR?'alert':''">
+        <span>Data sample with low count rule policy applied: </span>
+        <span *ngFor="let v of variable.dataDistributionPostQC" style="font-size: 1em" title="In brackets the number of occurrence of this value.">
+          {{v.value}} ({{v.occurrence}}),&nbsp;
+        </span>
+      </div>
+      <div *ngIf="variable.isExcludedBcLCR" class="layout-note">
+        This variable was impacted by the "low count rule". This variable was subsequently excluded because it now has one value
+        only.
+        <br> The "low count rule" is: values which occur less than {{qc.lowCountRule}} times are merge with there closest neighbor.
+      </div>
+      <div *ngIf="variable.type=='String'" class="layout-note">This variable was excluded because text is not readable.</div>
+      <div *ngIf="!variable.variance && variable.type!='String'" class="layout-note">
+        This variable was excluded because it has one value only.
+      </div>
+      <div *ngIf="variable.excludedBcMissing" class="layout-note">
+        This variable has {{variable.missing}} missing values. It is more than the value set in the "missing data rule": {{qc.missingThreshold}}.
+        Therefore this variable is ignored by default.
+      </div>
+      <div *ngIf="isForcedExclude(variable) && variable.variance" class="layout-note">
+        This variable can not be included individually in the analysis because one of the generale rules is broken (see above).
+      </div>
+      <mat-spinner *ngIf="!this.histData" style="margin: auto;"></mat-spinner>
+      <div *ngIf="this.noHistogram" style="color: red;">No Histogram for this variable : {{variable.type}} variable with more than 200 values</div>
+      <div *ngIf="this.histData">
+        <div *ngIf="this.histData.length!=0" class="distribution-histogram">
+          <ngx-charts-bar-vertical
+          [results]="histData"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"> 
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-icon-button (click)="move(-1)">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="move(1)">
+        <mat-icon aria-label="Next variable">keyboard_arrow_right</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>

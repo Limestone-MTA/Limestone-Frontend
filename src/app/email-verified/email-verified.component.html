@@ -1,0 +1,25 @@
+<mat-card class="card" *ngIf="!error_token">
+    <img  class="img-responsive" src="assets/images/green_check.png" alt="green_check">
+    <div>
+      <h1 class ="header" style="text-align: center;"> Email verification </h1>
+    </div>
+    <p style="text-align: center; line-height: 150%;">Your mail has been verified. You can continue using the application.</p>
+  </mat-card>
+<mat-card class="card" *ngIf="error_token">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <img  class="img-responsive" src="assets/images/time-expire-icon.png" alt="green_check">
+  <div>
+    <h1 class ="header" style="text-align: center;"> Token expired </h1>
+  </div>
+  <p style="text-align: center; line-height: 150%;">Enter your email address to receive a new link</p>
+  <mat-form-field class="app-full-width"> 
+    <input id="mail" type="text" name="mail" matInput formControlName="mail" placeholder="Mail"/>
+  </mat-form-field>
+  <div *ngIf="error_mail" style="color: red; margin: auto; text-align: center;">{{ error_mail }}</div>
+  <mat-card-actions class="app-center">
+    <button id="submit" type="submit" mat-button>Resend verification mail</button>
+  </mat-card-actions>
+  <p *ngIf="message" style="font-size: 20px;margin: 1em;">{{ message }}</p>
+  </form>
+</mat-card>
+  <a routerLink="/signin" routerLinkActive="active" ariaCurrentWhenActive="page" class="link">Login here</a>

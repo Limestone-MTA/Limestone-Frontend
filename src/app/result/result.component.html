@@ -1,0 +1,26 @@
+<mat-progress-bar mode="indeterminate" color="warn" *ngIf="!analyse"></mat-progress-bar>
+<div *ngIf="analyse && !analyse.completed && analyse.progress">
+  <mat-progress-bar mode="determinate" color="warn" [value]="analyse.progress.percentage"></mat-progress-bar>
+</div>
+
+<mat-card *ngIf="!distrib && result" class="view-container">
+  <mat-card-content style="text-align: center;">
+    <!--<mat-horizontal-stepper>
+      <mat-step label="Initialisation" [completed]="result.status > 0"> </mat-step>
+      <mat-step label="Data generation" [completed]="result.status > 19"> </mat-step>
+      <mat-step [label]="dataProcessingLabel" [completed]="result.status > 29"> </mat-step>
+      <mat-step label="End"> </mat-step>
+    </mat-horizontal-stepper>-->
+    <div *ngIf="analyse && analyse.progress && analyse.progress.startTime">Data processing started at: {{ analyse.progress.startTime | date: 'medium' }}</div>
+    <mat-card-header style="font-size: large; display: flex; justify-content: center;">Your analysis is running</mat-card-header>
+    <p style="font-size: medium; width: 60%; margin: auto;">This step can takes some time, up to 15 min. 
+      You can quit this page and return later for your results.
+    </p>
+  </mat-card-content>
+</mat-card>
+<app-result-final *ngIf="distrib" [analyse]="analyse" [distrib]="distrib" [result]="result" [preselection]="ass.preselection" [logistic]="ass.logistic"></app-result-final>
+<mat-card *ngIf="analyse?.error" class="view-container">
+  <mat-card-content>
+    <pre style="color:red">{{ analyse.error }}</pre>
+  </mat-card-content>
+</mat-card>

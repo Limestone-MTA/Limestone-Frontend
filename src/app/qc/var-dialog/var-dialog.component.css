@@ -1,0 +1,18 @@
+.name {
+    flex: 1 1 auto;
+}
+
+.layout-note {
+    border-left: 10px solid #ff9800;
+    background-color: rgba(255, 152, 0, .05);
+    padding: 1.4em;
+    margin-top: 1em;
+}
+
+.alert {
+    color: red;
+}
+
+.distribution-histogram {
+    min-height: 400px;
+}

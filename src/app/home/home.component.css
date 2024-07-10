@@ -1,0 +1,71 @@
+.title {
+    width: 30%;
+    padding: 2.5em;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.img-responsive {
+    margin-right: 2em;
+    width: 18%;
+}
+
+.title-text {
+    font-size: 30px;
+}
+
+.overview {
+    text-align: center;
+    font-size: 20px;
+    margin: auto;
+    width: 70%;
+    margin-bottom: 1em;
+    padding: 1.5em;
+    line-height: 1.3em;
+}
+
+.create-project {
+    margin: 1em;
+    margin-right: 5em;
+    min-height: 50px;
+}
+
+.my-projects-button {
+    margin: 1em;
+    min-height: 50px;
+}
+
+.create-projects-button {
+    grid-area: create-projects-button;
+    text-align: center;
+    margin-bottom: 3em;
+}
+
+.step-explained {
+    margin: auto;
+    width: 75%;
+    padding: 1em;
+}
+
+.steps {
+    text-align: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: grid;
+    grid-template-areas: "upload" "quality-control" "variable-selection" "result";
+}
+
+.material-symbols-outlined {
+    margin-bottom: 0.5em;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.mat-button-blue {
+    background-color: #68B6EF;
+    color: #fff;
+  }

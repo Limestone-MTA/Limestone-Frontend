@@ -1,0 +1,197 @@
+.header{
+    margin : 15px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.sub-headers{
+    padding: 0%;
+    margin-bottom: 0.5em;
+    font-size: large;
+}
+
+.navigation-button {
+    width: 20%;
+    color: #3E50B4;
+    font-size:large;
+}
+
+.navigation-disabled {
+    width: 20%;
+    font-size:large;
+}
+
+.material-symbols-outlined {
+    vertical-align: middle;
+    font-size:xx-large;
+}
+
+.as-explanation {
+    width: 30%;
+    min-width: 300px;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+.as-title {
+    width: 30%;
+    min-width: 300px;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+.action-button {
+    flex-grow: 1;
+    margin-right: 1em;
+    margin-top: auto;
+    margin-bottom: auto;
+    min-height: 50px;
+}
+
+.save-duplicate-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.action-button-container {
+    margin: 0.5em;
+    padding: 1em;
+    width: 30%;
+}
+
+.cms-score {
+    margin-top: 1em;
+    font-size: large;
+}
+
+.search {
+    min-height: 64px;
+    padding: 0;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.as-advanced {
+    grid-area: advanced;
+}
+
+.as-advanced input {
+    margin-bottom: 1em;
+}
+
+.advanced-parameters {
+    padding: 0 !important;
+    grid-area: advanced-parameters;
+    display: grid;
+    grid-template-columns: 2fr;
+}
+
+.global-actions {
+    grid-area: global-actions;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'tests preselection';
+}
+
+.radio-button {
+    display: flex;
+    flex-direction: column;
+}
+
+.preselection {
+    grid-area: preselection;
+}
+
+.tests {
+    grid-area: tests;
+}
+
+.inputation {
+    grid-area: imput;
+}
+
+.overview {
+    grid-area: overview;
+}
+
+.variables {
+    grid-area: variables;
+}
+
+.actions {
+    grid-area: actions;
+    margin-bottom: 1em;
+    text-align: right;
+}
+
+.wrapper {
+    display: grid;
+    grid-gap: 15px;
+    grid-template-areas: 'title' 'save-duplicate-buttons' 'advanced-parameters' 'variables' 'actions';
+}
+
+@media (min-width: 800px) {
+    .wrapper {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: 'title . save-duplicate-buttons' 'advanced-parameters advanced-parameters advanced-parameters' 'variables variables variables' '. . actions';
+        margin: 0 15px;
+    }
+}
+
+.mat-column-name {
+    cursor: pointer;
+}
+
+.mat-column-select {
+    overflow: initial;
+    max-width: 120px;
+    justify-content: flex-end;
+}
+
+.mat-column-outcome,
+.mat-column-predictor,
+.mat-column-confounders,
+.mat-column-covariates {
+    overflow: initial;
+    max-width: 100px;
+    margin: 0 0.4em;
+}
+
+.mat-column-missing {
+    max-width: 10%;
+    cursor: pointer;
+}
+
+mat-cell:first-child,
+mat-footer-cell:first-child,
+mat-header-cell:first-child {
+    padding-left: 0;
+}
+
+.show {
+    display: block !important;
+}
+
+.advanced-toogle {
+    margin-bottom: 16px;
+}
+
+::ng-deep.mat-horizontal-stepper-wrapper {
+    background-color: #FAFAFA;
+}
+
+::ng-deep.mat-stepper-horizontal {
+    background-color: #FAFAFA;
+}
+
+.selected-variables {
+    max-height: 35px;
+}
+
+.mat-button-blue {
+    background-color: #68B6EF;
+    color: #fff;
+}

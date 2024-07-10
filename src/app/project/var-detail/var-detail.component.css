@@ -1,0 +1,12 @@
+.name {
+    flex: 1 1 auto;
+    font-size:xx-large;
+}
+
+.alert {
+    color: red;
+}
+
+.distribution-histogram {
+    min-height: 400px;
+}

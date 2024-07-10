@@ -1,0 +1,210 @@
+<mat-progress-bar mode="indeterminate" color="warn" *ngIf="!variables"></mat-progress-bar>
+<mat-card class="header">
+    <div *ngIf="qc" style="width: 80%;margin: auto;margin-top: 0.5em;">
+        <div style="margin-bottom: 0.5em;">
+            <button mat-button class="navigation-button" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_0</span>
+                Project
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/dt', dt.ident]" title="Go to Data Transformation (DT) {{dt.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_1</span>
+                Data Transformation
+            </button>
+            <button mat-button class="navigation-button" [routerLink]="['/qc', qc.ident]" title="Go to Quality Control (QC) {{qc.ident}}">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_2</span>
+                Quality Control
+            </button>
+            <button mat-button disabled class="navigation-disabled">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_3</span>
+                Variables Selection
+            </button>
+            <button mat-button disabled class="navigation-disabled">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                <span class="material-symbols-outlined">counter_4</span>
+                Results
+            </button>
+        </div>
+        <mat-progress-bar mode="determinate" value="51"></mat-progress-bar>
+    </div>
+    <div class="qc-explanation">
+        <mat-card-header class="sub-headers">
+            What is a quality control ?
+        </mat-card-header>
+        <p style="font-size: medium;">This page allows you to parameterize the quality control on your data. 
+            This includes removing variable conditional on the percentage of missing value, or low variance, 
+            and applying non-linear transformation of continuous variables displaying non-normal distribution
+        </p>
+    </div>
+    <div class="qc-title">
+        <mat-card-header class="sub-headers">
+            Name of this quality control
+        </mat-card-header>
+        <mat-form-field *ngIf="qc" subscriptSizing="dynamic" style="width: 100%; max-width: 500px;">
+            <input matInput type="text" placeholder="Name your Quality Control" [(ngModel)]="qc.name" name="name" required [readonly]="readonly" />
+            <button *ngIf="!readonly" matSuffix mat-icon-button aria-label="Clear" (click)="qc.name = ''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div class="action-button-container">
+        <mat-card-header class="sub-headers">
+            Actions
+        </mat-card-header>
+        <div class="save-duplicate-buttons">
+            <mat-spinner *ngIf="!error && isSaving"></mat-spinner>
+            <button mat-raised-button color="button-blue" (click)="saveAndGo(qc, readonly)" [disabled]="isSaving" title="Save this quality control and go to the variable selection step" class="action-button"><mat-icon>arrow_forward</mat-icon> Save and go to variables selection</button>
+            <button mat-raised-button color="button-blue" (click)="duplicate(qc)" [disabled]="isSaving" title="Duplicate this Quality Control (QC)" class="action-button"><mat-icon>content_copy</mat-icon> Duplicate</button>
+            <button mat-raised-button *ngIf="!readonly" color="button-blue" (click)="save(qc)" [disabled]="isSaving" title="Save current changes made on this Quality Control (QC)" class="action-button"><mat-icon>save</mat-icon> Save</button>
+        </div>
+    </div>
+    <div class="error" *ngIf="error">
+        {{ error }}
+    </div>
+</mat-card>
+<div class="wrapper" *ngIf="qc">
+    <div class="data-summary">
+        <mat-card class="pre-qc">
+            <mat-card-header>
+                <mat-card-title>
+                    Before Quality Control
+                    <app-help class="help">
+                        This data summary shows the state of your data
+                        <b>before</b> you change it using the features on this page (the current Quality Control page)
+                    </app-help>
+                </mat-card-title>
+                <mat-card-subtitle>Overview of the data before any change in the Quality Control (QC). </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <app-data-pre-qc [project]="project" [qc]="qc" [variables]="variables"></app-data-pre-qc>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="post-qc">
+            <mat-card-header>
+                <mat-card-title>
+                    After Quality Control
+                    <app-help class="help">
+                        This data summary shows the state of your data with
+                        <b>the changes made using the features on this page</b> (the current Quality Control page)
+                    </app-help>
+                </mat-card-title>
+                <mat-card-subtitle>Overview of the data reflecting all the changes made in the Quality Control (QC). </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content *ngIf="variables">
+                <app-data-post-qc [project]="project" [qc]="qc" [variables]="variables"></app-data-post-qc>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <mat-expansion-panel expanded class="basic-parameters">
+        <mat-expansion-panel-header>
+            <mat-panel-title>GLOBAL PARAMETERS</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="global-parameters">
+            <mat-card *ngIf="variables" class="missing-data-rule">
+                <mat-card-header>
+                    <mat-card-title>
+                        Missing data rule
+                        <app-help class="help">
+                            <div>
+                                A variable can be irrelevant to analyze if it contains too many missing values.
+                            </div>
+                            <div>&nbsp;</div>
+                            <div>
+                                Here you can visualize your variables sorted by the number of missing values.
+                            </div>
+                            <div>&nbsp;</div>
+                            <div>
+                                You can then choose the best threshold to exclude some of them.
+                            </div>
+                            <div>&nbsp;</div>
+                            <div><b>Note:</b> you can see the list of excluded variables in the "Variables details" section.</div>
+                        </app-help>
+                    </mat-card-title>
+                    <!--<mat-card-subtitle>Exclude variables based on missing data.</mat-card-subtitle>-->
+                </mat-card-header>
+                <mat-card-content *ngIf="variables">
+                    <app-missing-rule [project]="project" [qc]="qc" [variables]="variables" [disableMissingRule] = "disableMissingRule" (calculate)="calculate(variables)" [readonly]="readonly"></app-missing-rule>
+                </mat-card-content>
+            </mat-card>
+            <div class="LCR-outliers">
+                <mat-card class="low-count-rule">
+                    <mat-card-header>
+                        <mat-card-title
+                            >Low count rule
+                            <app-help class="help">
+                                <div>
+                                    This rule only applies to ordinal or binary variable. When the number of occurrence of one value is very low (i.e. below the selected threshold), this value will be merged
+                                    with the next smaller value. When it results in a constant (all sample have the same value), this variable is excluded.
+                                </div>
+                                <div>&nbsp;</div>
+                                <i> <u>Note:</u> you can see how the "low count rule" affect the variables by clicking on each variable in the "Variables details" section down below.</i>
+                            </app-help>
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            Merge variable's values based on how many time they occur.
+                            <span *ngIf="qc.excludedLowCountRule?.length">This rule impacts {{ qc.lowCountRuleCount }} variables and exclude {{ qc.excludedLowCountRule?.length }}. </span>
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <app-low-count-rule [qc]="qc" (calculate)="calculate(variables)"[readonly]="readonly"></app-low-count-rule>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="outliers-rule">
+                    <mat-card-header>
+                        <mat-card-title
+                            >Outliers rule
+                            <app-help class="help">
+                                <div>
+                                    This rule only applies to continuous variables.
+                                </div>
+                                <div>
+                                    Some variable's values are too far from the variable's mean. Those values might be measurement errors. You can choose to ignore them if the distance to the mean value is
+                                    greater that the selected threshold.
+                                </div>
+                            </app-help>
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            <span *ngIf="qc.outliersChoose !== 'setDistance'">Use the outliers rule to remove values too far away from the mean.</span>
+                            <span *ngIf="qc.outliersChoose === 'setDistance'">Remove values that are {{ qc.distanceMean }} standard deviation away from the mean.</span>
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <app-outliers-rule [qc]="qc" (calculate)="calculate(variables)"[readonly]="readonly"></app-outliers-rule>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <!--<mat-card class="data-transform">
+                <mat-card-header>
+                    <mat-card-title
+                        >Data transformation
+                        <app-help>
+                            <div>It applies a <a href="https://en.wikipedia.org/wiki/Data_transformation_(statistics)" target="w">data transformation</a> to all continuous variables at once.</div>
+                            <div>&nbsp;</div>
+                            <div><b>Logarithmic transformation</b> will use the logarithm value of the variable instead of the orginal value.</div>
+                            <div>&nbsp;</div>
+                            <div>
+                                <b>Normalization transformation</b> will apply an inverse normal transformation on the ranked values, resulting in a fully normal distribution. Tie ranks are set with the average
+                                of the corresponding inverse of the percentile.
+                            </div>
+                            <div>&nbsp;</div>
+                            <i> <u>Note</u>: you can manually change the transformation for each variable later in the "Manual QC" section. </i>
+                        </app-help>
+                    </mat-card-title>
+                    <mat-card-subtitle> Apply a transformation to all continious variables. </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-radio-group class="radio-group" [(ngModel)]="qc.transformationTypeChoose" name="type" (change)="calculate(variables)" [disabled]="readonly">
+                        <mat-radio-button *ngFor="let v of params.transformOptions" [value]="v" aria-label="{{ v }}">{{ v }}</mat-radio-button>
+                    </mat-radio-group>
+                </mat-card-content>
+            </mat-card>-->
+        </div>
+    </mat-expansion-panel>
+
+    <mat-card *ngIf="variables" class="manual-qc">
+        <app-manual-qc [variables]="variables" [qc]="qc" (calculate)="calculate(variables)" [readonly]="readonly"></app-manual-qc>
+    </mat-card>
+</div>

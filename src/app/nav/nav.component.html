@@ -1,0 +1,40 @@
+<mat-toolbar color="primary" class="nav-toolbar">
+    <nav style="flex: 1">
+      <button mat-icon-button routerLink="/home" title="Go to home page." class="icon-button">
+        <mat-icon>home</mat-icon>
+      </button>
+      <button mat-button routerLink="/p" title="Back to the project list." class="text-button">My projects</button>
+      <!--<button mat-button class="text-button" *ngIf="project" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">{{project.name}}</button>
+      <button mat-icon-button *ngIf="dt" class="sep">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button mat-button class="text-button" *ngIf="dt" [routerLink]="['/dt', dt.ident]" title="Go to Data Transformation (DT) {{dt.ident}}">{{dt.name}}</button>
+      <button mat-icon-button *ngIf="qc" class="sep">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button mat-button class="text-button" *ngIf="qc" [routerLink]="['/qc', qc.ident]" title="Go to Quality Control (QC) {{qc.ident}}">{{qc.name}}</button>
+      <button mat-icon-button *ngIf="ass" class="sep">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button mat-button class="text-button" *ngIf="ass" [routerLink]="['/as', ass.ident]" title="Go to Analysis Settings (AS) {{ass.ident}}">{{ass.name}}</button>
+      <button mat-icon-button *ngIf="result" class="sep">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button mat-button class="text-button" *ngIf="result" [routerLink]="['/r', result.ident]" title="Go to result {{result.ident}}">Result of {{result.updated | date:'medium'}}</button>-->
+    </nav>
+  
+    <button mat-icon-button [routerLink]="['/QA']" title="Go to most commonly asked question (Q&A)" class="icon-button">
+      <mat-icon>help</mat-icon>
+    </button>
+
+    <mat-menu #appMenu="matMenu" class="icon-button">
+      <button mat-menu-item [routerLink]="['/account']">Account settings</button>
+      <button mat-menu-item (click)="logout()">Log out</button>
+    </mat-menu>
+  
+    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+</mat-toolbar>
+<router-outlet></router-outlet>

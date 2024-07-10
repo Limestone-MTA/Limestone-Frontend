@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.pie-pre-qc {
+    text-align: center;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    letter-spacing: 0.01rem;
+    width: 70%;
+    margin: 1em 0;
+    max-width: 500px;
+}
+
+.data-type-help {
+    width: 3%;
+}
+
+.summary-data-list {
+    margin-left: 3em;
+    width: 40%;
+}
+
+@media (max-width: 720px) {
+    .container {
+        flex-direction: column;
+    }
+    .pie-pre-qc {
+        width: 100%;
+    }
+}
+
