@@ -52,7 +52,7 @@ export class ResultFinalComponent implements OnInit {
     this.dt = this.commons.dt;
     this.qc = this.commons.qc;
     this.ass = this.commons.ass;
-    this.pageSize = this.commons.pageSize;
+    this.pageSize = 500;
     this.dataSource = new MatTableDataSource(this.analyse.result);
     this.renderData = (this.dataSource as any)._renderData; // not cool :(
     this.dataSource.paginator = this.paginator;
