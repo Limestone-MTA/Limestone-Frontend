@@ -111,8 +111,6 @@
             <mat-card-title-group>
                 <mat-card-title>
                     Transform to multiple binary variables
-                    <button *ngIf="!ordinalTransformationApplied" mat-raised-button color="button-blue" (click)="transformOrdinalAll()">Transform all</button>
-                    <button *ngIf="ordinalTransformationApplied" mat-raised-button color="warn" (click)="cancelTransformOrdinalAll()">Cancel all</button>
                 </mat-card-title>
                 <mat-card-subtitle>
                     You can transform text variable to binary variables if they have less than 50 differents values.
@@ -139,9 +137,9 @@
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <button *ngIf="row.transform=='Nothing' && row.nbOfValues <= 50" mat-raised-button color="button-blue" (click)="transformOrdinal(row)">Transform to binary</button>
+                    <button *ngIf="row.transform=='Nothing' && row.nbOfValues <= 50" mat-raised-button color="button-blue" (click)="transformCategorical(row)">Transform to binary</button>
                     <p *ngIf="row.transform=='Nothing' && row.nbOfValues > 50" style="margin: 0;">More than 50 differents values, cannot transform.</p>
-                    <p *ngIf="row.transform!='Nothing'" style="margin: 0;">Transformed into {{row.nbOfValues}} binary variables.</p>
+                    <p *ngIf="row.transform!='Nothing'" style="margin: 0;">Transformed into {{row.nbOfValues - 1}} binary variables.</p><!--The value of reference is "{{row.dataDistribution[0].value}}".-->
                     <button *ngIf="row.transform!='Nothing'" mat-raised-button color="warn" (click)="cancelTransformation(row)" style="margin-left: 1em;">Cancel</button>
                 </mat-cell>
             </ng-container>

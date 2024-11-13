@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="content">
+        <header>
+            <h1>Variable Selection for Modeling</h1>
+            <p>Choosing the appropriate variables for your model is crucial for accurate analysis and predictions. 
+                Below is a streamlined explanation of key variable types and a basic mathematical representation of a regression model.</p>
+
+        </header>
+    
+        <section>
+            <a id="step_1" class="anchor"></a>        
+            <h2>Key Variable Types</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable Type</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Outcome Variable</td>
+                        <td>The main variable that you want to predict or explain (dependent variable).</td>
+                        <td>Employee Salary</td>
+                    </tr>
+                    <tr>
+                        <td>Predictor Variables</td>
+                        <td>Factors believed to influence the outcome variable (independent variables).</td>
+                        <td>Years of Experience, Education</td>
+                    </tr>
+                    <tr>
+                        <td>Control Variables</td>
+                        <td>Additional variables included to account for confounding effects.</td>
+                        <td>Age, Hours Worked</td>
+                    </tr>
+                    <tr>
+                        <td>Interaction Terms</td>
+                        <td>Terms used to capture the combined effect of two or more predictors on the outcome.</td>
+                        <td>Education Level × Experience</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <a id="step_2" class="anchor"></a>        
+            <h2>Mathematical Models</h2>
+            <h3>Linear Regression Model</h3>
+            <pre>
+                Y = β<sub>p</sub>X<sub>p</sub> + β<sub>f</sub>X<sub>f</sub> + β<sub>c</sub>X<sub>c</sub> + ε
+                    </pre>
+                    <ul>
+                        <li><strong>Y</strong> = Outcome variable (e.g., Employee Salary)</li>
+                        <li><strong>X<sub>p</sub></strong>/<strong>β<sub>p</sub></strong> = Predictor variables and its coefficients (e.g., Years of Experience, Education)</li>
+                        <li><strong>X<sub>f</sub></strong>/<strong>β<sub>f</sub></strong> = Confounder variables and its coefficients for confounder variables (e.g., Age, Work Hours)</li>
+                        <li><strong>X<sub>c</sub></strong>/<strong>β<sub>c</sub></strong> = Musical chair  covariables and its coefficients</li>
+                        <li><strong>ε</strong> = Error term (captures unexplained variability)</li>
+                    </ul>
+            <h3>Logistic Regression Model</h3>
+            <pre>
+        logit(Y) = β<sub>p</sub>X<sub>p</sub> + β<sub>f</sub>X<sub>f</sub> + β<sub>c</sub>X<sub>c</sub> + ε
+            </pre>
+            <ul>
+                <li><strong>logit(Y)</strong> = log-odds of the outcome variable</li>
+                <li>The rest of the terms are defined similarly as in linear regression.</li>
+            </ul>
+        </section>
+        <section>
+            <a id="step_3" class="anchor"></a>        
+            <h2>Tips for Variable Selection</h2>
+            <ul>
+                <li><strong>Theoretical Relevance:</strong> Choose variables based on their theoretical connection to the outcome.</li>
+                <li><strong>Statistical Significance:</strong> Use p-values to assess the significance of predictors.</li>
+                <li><strong>Avoid Multicollinearity:</strong> Check for correlations among predictors to avoid redundancy.</li>
+            </ul>
+        </section>
+    </div>
+    <div class="tableOfContentContainer">
+        <div class="tableOfContent docs-toc-container">
+            <div class="docs-toc-heading">Table of contents</div>
+            <nav>
+                <a href="/documentation/variable_selection/#step_1">Key Variable Types</a>
+                <br>
+                <a href="/documentation/variable_selection/#step_2">Mathematical Models</a>
+                <br>
+                <a href="/documentation/variable_selection/#step_3">Tips for Variable Selection</a>
+            </nav>
+        </div>
+    </div>
+</div>

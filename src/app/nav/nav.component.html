@@ -1,8 +1,8 @@
-<mat-toolbar color="primary" class="nav-toolbar">
-    <nav style="flex: 1">
-      <button mat-icon-button routerLink="/home" title="Go to home page." class="icon-button">
-        <mat-icon>home</mat-icon>
-      </button>
+<mat-toolbar color="primary" class="container">
+    <button mat-icon-button routerLink="/home" title="Go to home page." class="icon-button">
+      <mat-icon>home</mat-icon>
+    </button>
+    <nav style="flex: 1;">
       <button mat-button routerLink="/p" title="Back to the project list." class="text-button">My projects</button>
       <!--<button mat-button class="text-button" *ngIf="project" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">{{project.name}}</button>
       <button mat-icon-button *ngIf="dt" class="sep">
@@ -23,8 +23,8 @@
       <button mat-button class="text-button" *ngIf="result" [routerLink]="['/r', result.ident]" title="Go to result {{result.ident}}">Result of {{result.updated | date:'medium'}}</button>-->
     </nav>
   
-    <button mat-icon-button [routerLink]="['/QA']" title="Go to most commonly asked question (Q&A)" class="icon-button">
-      <mat-icon>help</mat-icon>
+    <button mat-icon-button [routerLink]="['/documentation/welcome_to_limestone']" title="Go to the documentation" class="icon-button">
+      <mat-icon>menu_book</mat-icon>
     </button>
 
     <mat-menu #appMenu="matMenu" class="icon-button">

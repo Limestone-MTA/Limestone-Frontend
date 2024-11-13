@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 
-import { As, Project, Qc, Result, Summary, Analyse } from '../main/entities';
+import { As, Project, Qc, Result, Summary, Analyse, Progress } from '../main/entities';
 import { CommonsService } from '../main/commons.service';
+import { HttpClient } from '@angular/common/http';
+import { interval, switchMap, Subscription, catchError, of } from 'rxjs';
+
 
 @Component({
   selector: 'app-result',
@@ -23,13 +26,18 @@ export class ResultComponent implements OnInit, OnDestroy {
   error: HttpErrorResponse;
   private INTERVAL = 3000;
   private resultId: string;
-  dataProcessingLabel = 'Data processing';
   private timeout: string | number | NodeJS.Timeout;
-
-  constructor(private commons: CommonsService, private route: ActivatedRoute, public dialog: MatDialog, private cd: ChangeDetectorRef) {}
+  progressPercentage: number = -1;
+  estimatedTime: number = -1;
+  estimatedEndTimeHour: number;
+  estimatedEndTimeMin: number;
+  endTommorow: boolean = false;
+  tooLong: boolean = false;
+  constructor(private commons: CommonsService, private http: HttpClient, private route: ActivatedRoute, public dialog: MatDialog, private cd: ChangeDetectorRef) {}
 
   async ngOnInit() {
     this.resultId = this.route.snapshot.paramMap.get('id');
+    this.getProgressOneTime(this.resultId);
     this.getResultFromServer();
   }
 
@@ -58,25 +66,81 @@ export class ResultComponent implements OnInit, OnDestroy {
     switch (r.status) {
       case 0:
         this.commons.launchAnalyse(r, this.ass.preselection, this.ass.logistic).subscribe();
-        this.reload();
         break;
-      case 10:
-      case 20:
-        this.reload();
-        break;
-      case 30:
-        this.reload();
-        break;
-      case 40:
-      case 50:
-        this.handleResult();
+      case 1:
         break;
     }
+    this.getProgress(this.resultId);
   }
 
-  // TODO retrieve just the Result and not the whole Project
-  private reload() {
-    this.timeout = setTimeout(this.getResultFromServer.bind(this), this.INTERVAL++);
+  getProgress(resultId: string) {
+    const pollingSubscription: Subscription = interval(30000)  // Poll every 60,000 milliseconds (1 minute)
+      .pipe(
+        switchMap(() => 
+          this.http.get<Progress>(this.commons.api_url + 'progress/' + resultId, {withCredentials: true}).pipe(
+            catchError(error => {
+              pollingSubscription.unsubscribe();
+              return of({ progressPercentage: this.progressPercentage , estimatedTime: this.estimatedTime}); // Return the last known progress to keep polling
+            })
+          )
+        )
+      )
+      .subscribe({
+        next: response => {
+          if (response && response.progressPercentage !== undefined && response.estimatedTime !== undefined) {
+            this.progressPercentage = Number(response.progressPercentage.toFixed(2));
+            this.estimatedTime = Number(response.estimatedTime.toFixed(0));
+            const date = new Date();
+            this.estimatedEndTimeHour = Math.floor((date.getHours()*60+date.getMinutes()+this.estimatedTime)/60);
+            this.estimatedEndTimeMin = (date.getHours()*60+date.getMinutes()+this.estimatedTime)%60;
+            if(this.estimatedEndTimeHour >= 24) {
+              this.estimatedEndTimeHour = this.estimatedEndTimeHour%24;
+              this.endTommorow = true;
+            }
+            if(this.estimatedTime > 1440) {
+              this.tooLong = true;
+            }
+            // Stop polling if progress reaches 100
+            if (this.progressPercentage >= 100) {
+              pollingSubscription.unsubscribe();
+              this.handleResult();
+            }
+          }
+          else {
+            console.error('Unexpected response structure:', response); // Log unexpected structure
+          }
+        },
+        error: err => {
+          pollingSubscription.unsubscribe();
+        }
+      });
+  }
+
+  getProgressOneTime(resultId: string) {
+    this.http.get<Progress>(this.commons.api_url + 'progress/' + resultId, {withCredentials: true}).subscribe({
+      next: response => {
+        if (response && response.progressPercentage !== undefined && response.estimatedTime !== undefined) {
+          this.progressPercentage = Number(response.progressPercentage.toFixed(2));
+          this.estimatedTime = Number(response.estimatedTime.toFixed(0));
+          const date = new Date();
+          this.estimatedEndTimeHour = Math.floor((date.getHours()*60+date.getMinutes()+this.estimatedTime)/60);
+          this.estimatedEndTimeMin = (date.getHours()*60+date.getMinutes()+this.estimatedTime)%60;
+          if(this.estimatedEndTimeHour >= 24) {
+            this.estimatedEndTimeHour = this.estimatedEndTimeHour%24;
+            this.endTommorow = true;
+          }
+          if(this.estimatedTime > 1440) {
+            this.tooLong = true;
+          }
+          if (this.progressPercentage >= 100) {
+            this.handleResult();
+          }
+        }
+      },
+      error: err => {
+      }
+
+    })
   }
 
   private handleResult() {
@@ -96,7 +160,6 @@ export class ResultComponent implements OnInit, OnDestroy {
       this.timeout = setTimeout(this.handleResult.bind(this), this.INTERVAL++);
     }
     this.analyse = analyse;
-    this.dataProcessingLabel = `Data processing (${this.analyse.progress.percentage}%)`;
   }
 
   private handleError(error: HttpErrorResponse) {

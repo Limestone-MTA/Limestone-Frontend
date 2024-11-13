@@ -1,0 +1,140 @@
+<div class="container">
+    <div class="content">
+        <header>
+            <h1>Quality Control Step</h1>
+            <p>Before diving into data analysis, it is essential to perform a comprehensive quality control process to ensure the reliability and accuracy of the results. 
+                Poor data quality can lead to biased insights, inaccurate conclusions, and flawed models.</p>
+        </header>
+    
+        <section>
+            <a id="step_1" class="anchor"></a>
+            <h2>Why Do You Need Quality Control?</h2>
+            <h3>Key Reasons for Performing Quality Control:</h3>
+            <ul>
+                <li><strong>Ensure Data Integrity:</strong> Identify and remove erroneous or incomplete data that could compromise the analysis.</li>
+                <li><strong>Improve Model Performance:</strong> Clean and consistent data lead to better-performing models and more reliable results.</li>
+                <li><strong>Reduce Bias:</strong> Prevent incorrect inferences by addressing missing values, outliers, or inconsistent data points.</li>
+                <li><strong>Enhance Interpretability:</strong> With clean data, it becomes easier to interpret relationships between variables and produce actionable insights.</li>
+            </ul>
+        </section>
+        <section>
+            <a id="step_2" class="anchor"></a>
+            <h2>Filtering Based on Missing Values</h2>
+            <p>
+                Missing values can introduce bias or reduce the power of your analysis. 
+                Ignoring missing data could lead to incorrect results or inaccurate models. Depending on the proportion and pattern of missingness, 
+                different strategies can be applied.<br>
+                In Limestone you can set up a threshold to remove variables with more than a certain percentage of missing values.
+            </p>
+            <div class="image-container">
+                <img src="assets/images/tutorial_missing_data_rule.png" class="image-documentation">
+            </div>
+        </section>
+        <section>
+            <a id="step_3" class="anchor"></a>
+            <h2>Filtering Based on Outliers</h2>
+            <p>
+                Outliers are data points that deviate significantly from the majority of the dataset. 
+                They can distort statistical analyses, influence model coefficients, or lead to overfitting in machine learning models.<br>
+                In Limestone, you can remove outliers who are more than a certain distance from the mean of the distribution, 
+                this distance is based on the standard deviation of the variable. The removed values will be changed to missing values.
+            </p>
+            <div class="image-container">
+                <img src="assets/images/tutorial_outliers_rule.png" class="image-documentation">
+            </div>
+        </section>
+        <section>
+            <a id="step_4" class="anchor"></a>
+            <h2>Merging Categories</h2>
+            <p>
+                When analyzing categorical data, small sample sizes in certain categories can lead to unreliable or unstable results, 
+                especially in statistical models or machine learning algorithms. 
+                To address this, you can merge categories with very few samples into a broader or "other" category. 
+                This ensures that each category has a sufficient number of observations for meaningful analysis.
+            </p>
+            <div style="display: flex;">
+                <table style="width: 45%; flex: auto; margin-right: 1em;">
+                    <caption>Original Data</caption>
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Orders</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>USA</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>Canada</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>UK</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>Germany</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>France</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Australia</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Brazil</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width: 45%; flex: auto; margin-left: 1em;">
+                    <caption>Merged Data</caption>
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Orders</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>USA</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>Canada</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>UK</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>Other</td>
+                            <td>10</td>
+                        </tr>
+                    </tbody>
+                </table>     
+            </div>
+        </section>
+        
+    </div>
+    <div class="tableOfContentContainer">
+        <div class="tableOfContent docs-toc-container">
+            <div class="docs-toc-heading">Table of contents</div>
+            <nav>
+                <a href="/documentation/quality_control/#step_1">Why quality control</a>
+                <br>
+                <a href="/documentation/quality_control/#step_2">Missing value filtering</a>
+                <br>
+                <a href="/documentation/quality_control/#step_3">Outliers filtering</a>
+                <br>
+                <a href="/documentation/quality_control/#step_4">Merging categories</a>
+            </nav>
+        </div>
+    </div>
+</div>

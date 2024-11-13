@@ -157,6 +157,28 @@ export class AsComponent implements OnInit {
     }
   }
 
+  duplicate(as: As, variables: Variable[]) {
+    this.isSaving = true;
+    this.commons.duplicateAS(as, variables).subscribe(
+    tmpNewAs => {
+      var newAs = new As();
+      newAs = tmpNewAs;
+      newAs.name = as.name;
+      newAs.testMusicalChair = as.testMusicalChair;
+      newAs.testStandard = as.testStandard;
+      newAs.preselection = as.preselection;
+      newAs.logistic = as.logistic;
+      newAs.imputation = as.imputation;
+      this.commons.updateCacheVariables(this.qc, this.ass, this.variables)
+      this.isSaving = false;
+      this.commons.goAs(newAs);
+      setTimeout(function () {
+        location.reload();
+      }, 200);
+      },
+    );
+  };
+
   save(as: As, variables: Variable[]) {
     (this.isSaving = true), (this.error = '');
     this.commons.updateCacheVariables(this.qc, this.ass, this.variables)
@@ -233,38 +255,6 @@ export class AsComponent implements OnInit {
     }
     this._charts();
   }
-  duplicate(as: As, variables: Variable[]) {
-    this.isSaving = true;
-    // save current AS
-    this.commons.patchAs(as, variables).subscribe(
-      () => {
-        // create a new AS
-        this.commons.newAs(this.qc).subscribe(
-          tmpNewAs => {
-            var newAs = new As();
-            newAs = tmpNewAs;
-            newAs.name = as.name;
-            newAs.testMusicalChair = as.testMusicalChair;
-            newAs.testStandard = as.testStandard;
-            newAs.preselection = as.preselection;
-            newAs.logistic = as.logistic;
-            newAs.imputation = as.imputation;
-            this.commons.updateCacheVariables(this.qc, this.ass, this.variables)
-            // change new AS to match the old one
-            this.commons.patchAs(newAs, variables).subscribe(
-              () => {
-                this.isSaving = false;
-                this.commons.goAs(newAs);
-                setTimeout(function () {
-                  location.reload();
-                }, 200);
-              },
-            );
-          },
-        );
-      },
-    );
-  };
 
   pageEvent = (e: PageEvent) => (this.commons.pageSize = e.pageSize);
 

@@ -1,0 +1,12 @@
+.main-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+}
+
+.view-container {
+    width: 40%;
+    margin: auto;
+    margin-top: 1em;
+}

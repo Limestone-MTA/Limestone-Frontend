@@ -8,6 +8,7 @@
     </mat-slider>
     <mat-form-field>
         <mat-label>Value</mat-label>
-        <input class="slider-input" matInput type="number" [(ngModel)]="qc.distanceMean" name="distanceMean" (input)="distanceMeanOnInputChange($event.target)" [readonly]="readonly" />
+        <input class="slider-input" matInput type="number" [(ngModel)]="qc.distanceMean" name="distanceMean" [readonly]="readonly" (input)="distanceMeanOnInputChange($event.target)" [readonly]="readonly"/>
+        <span matTextSuffix>sd</span>
     </mat-form-field>
 </div>

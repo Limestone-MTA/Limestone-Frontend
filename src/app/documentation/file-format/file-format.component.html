@@ -1,0 +1,185 @@
+<div class="container">
+    <div class="content">
+        <header>
+            <h1>File format in Limestone</h1>
+            <p>To ensure accurate and efficient analysis, it is important that your data is properly organized before uploading it into Limestone.<br>
+                This guide will help you understand the best practices for structuring your data so it can be easily processed, analyzed, and exported.</p>
+        </header>
+    
+        <section>
+            <a id="step_1" class="anchor"></a>
+            <h2>Use a Tabular Structure</h2>
+            <p>Your data should be organized in a <strong>table format</strong> where:</p>
+            <ul>
+                <li><strong>Rows</strong> represent individual records (e.g., each row could represent a person, sample, or event).</li>
+                <li><strong>Columns</strong> represent different variables or attributes for each record (e.g., age, salary, date, category).</li>
+            </ul>
+            
+            <h3>Example:</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Salary</th>
+                            <th>Hire Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>28</td>
+                            <td>50,000</td>
+                            <td>2020-03-15</td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>34</td>
+                            <td>60,000</td>
+                            <td>2018-11-07</td>
+                        </tr>
+                        <tr>
+                            <td>Sam Brown</td>
+                            <td>41</td>
+                            <td>75,000</td>
+                            <td>2015-09-21</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section>
+            <a id="step_2" class="anchor"></a>
+            <h2>Use Clear and Consistent Column Headers</h2>
+            <p>The first row of your dataset should contain <strong>column headers</strong> that clearly describe the variables in your table. Follow these tips:</p>
+            <ul>
+                <li><strong>Be descriptive</strong>: Use meaningful names (e.g., "Employee ID" instead of "ID").</li>
+                <li><strong>Avoid special characters</strong>: Stick to letters, numbers, and underscores (e.g., "hire_date" instead of "Hire Date!").</li>
+                <li><strong>Be consistent</strong>: Use uniform column names across datasets (e.g., always use "birth_date" instead of mixing "birth" and "dob").</li>
+            </ul>
+
+            <h3>Example of Clear Headers:</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Hire Date</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12345</td>
+                            <td>John Doe</td>
+                            <td>Marketing</td>
+                            <td>2020-03-15</td>
+                            <td>50,000</td>
+                        </tr>
+                        <tr>
+                            <td>67890</td>
+                            <td>Jane Smith</td>
+                            <td>Finance</td>
+                            <td>2018-11-07</td>
+                            <td>60,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section>
+            <a id="step_3" class="anchor"></a>
+            <h2>Ensure Consistent Data Types</h2>
+            <p>Each column should contain data of the same type to avoid errors. For example:</p>
+            <ul>
+                <li><strong>Text Fields</strong>: Use for names, categories, or descriptive data (e.g., "Department", "City").</li>
+                <li><strong>Numerical Data</strong>: Use for quantities, amounts, or metrics (e.g., "Age", "Salary").</li>
+                <li><strong>Dates</strong>: Use a consistent format for dates throughout the dataset (e.g., YYYY-MM-DD).</li>
+            </ul>
+        </section>
+        <section class="missing-data">
+            <a id="step_4" class="anchor"></a>
+            <h2>Handle Missing Data Appropriately</h2>
+            <p>Missing data should be properly managed to ensure smooth uploads:</p>
+            <ul>
+                <li>Leave cells blank for missing values rather than inserting "Unknown".</li>
+                <li>Or consider using standardized codes for missing data. Here is an exhaustive list of the missing codes we recognize :
+                    ['NA', 'Na', 'na', '#NA', '&lt;NA&gt;', 'N/A', 'n/a', '#N/A', 'NaN', '-NaN', 'nan', '-nan', '1.#IND', '-1.#IND', '1.#QNAN', '-1.#QNAN', 
+                     'NULL', 'null']
+                </li>
+            </ul>
+
+            <h3>Example:</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Salary</th>
+                            <th>Hire Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>28</td>
+                            <td>50,000</td>
+                            <td>2020-03-15</td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td></td>
+                            <td>60,000</td>
+                            <td>2018-11-07</td>
+                        </tr>
+                        <tr>
+                            <td>Sam Brown</td>
+                            <td>41</td>
+                            <td></td>
+                            <td>2015-09-21</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section>
+            <a id="step_5" class="anchor"></a>
+            <h2>Avoid Complex Structures</h2>
+            <p>To avoid issues during data processing, ensure that:</p>
+            <ul>
+                <li>There are no merged cells in your data.</li>
+                <li>Your data does not use multi-row headers.</li>
+                <li>Formulas are replaced with actual values, and special characters are avoided.</li>
+            </ul>
+        </section>
+        <section>
+            <a id="step_6" class="anchor"></a>
+            <h2>Use One Dataset or Sheet Per Upload</h2>
+            <p>Ensure you're only uploading <strong>one dataset at a time</strong>. If your data is spread across multiple tables, combine them into a single dataset using a common identifier (e.g., "Employee ID" or "Product Code").</p>
+        </section>
+
+    </div>
+    <div class="tableOfContentContainer">
+        <div class="tableOfContent docs-toc-container">
+            <div class="docs-toc-heading">Table of contents</div>
+            <nav>
+                <a href="/documentation/file_format/#step_1">Use a tabular structure</a>
+                <br>
+                <a href="/documentation/file_format/#step_2">Use column headers</a>
+                <br>
+                <a href="/documentation/file_format/#step_3">Ensure consistent data types</a>
+                <br>
+                <a href="/documentation/file_format/#step_4">Handle missing data appropriately</a>
+                <br>
+                <a href="/documentation/file_format/#step_5">Avoid complex structures</a>
+                <br>
+                <a href="/documentation/file_format/#step_6">Use one dataset</a>
+                <br>
+            </nav>
+        </div>
+    </div>
+</div>

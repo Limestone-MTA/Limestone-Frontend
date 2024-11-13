@@ -1,5 +1,5 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Dt, Project, Qc, Variable } from '../main/entities';
+import { Dt, Project, Variable } from '../main/entities';
 import { ActivatedRoute } from '@angular/router';
 import { CommonsService } from '../main/commons.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +10,7 @@ import { BinaryDialogComponent } from './binary-dialog/binary-dialog.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatRadioChange } from '@angular/material/radio';
 import { VarDetailComponent } from '../project/var-detail/var-detail.component';
+import { CategoricalDialogComponent } from './categorical-dialog/categorical-dialog.component';
 
 
 @Component({
@@ -68,7 +69,7 @@ export class DataTransformationComponent implements OnInit {
       this.dt = d;
       this.readonly = d.qualityControl.length ? true : false;
       this.commons.dataReady.next();
-      this.commons.getVariablesForDataTransformation(this.dt).subscribe(v => {
+      this.commons.getVariablesForDataTransformation(this.dt, this.project).subscribe(v => {
         this.manageVariables(v);
       });
     });
@@ -101,39 +102,14 @@ export class DataTransformationComponent implements OnInit {
     data: { variable: v, project : this.project, readonly: this.readonly, changed: this.changed},
   });
 
-  transformOrdinal = (variable : Variable) => {
-    if (variable.nbOfValues <= 50) {
-      variable.transform = "Ordinal";
-      this.changed.add(variable);
-    }
-    else {
-      this.commons.snack('More than 50 values, cannot transform.');
-    }
-  }
+  transformCategorical = (v : Variable) => this.dialog.open(CategoricalDialogComponent, {
+    width: '50%',
+    data: {dt : this.dt, variable: v, readonly: this.readonly, changed: this.changed},
+  });
 
   cancelTransformation = (variable : Variable) => {
     this.changed.delete(variable);
     variable.transform = "Nothing";
-  }
-
-  transformOrdinalAll = () => {
-    this.ordinalTransformationApplied = !this.ordinalTransformationApplied;
-    for (var variable of this.variables[1]) {
-      if (variable.nbOfValues <= 50) {
-        variable.transform = "Ordinal";
-        this.changed.add(variable);
-      }
-    }
-  }
-
-  cancelTransformOrdinalAll = () => {
-    this.ordinalTransformationApplied = !this.ordinalTransformationApplied;
-    for (var variable of this.variables[1]) {
-      if (variable.nbOfValues <= 50) {
-        variable.transform = "Nothing";
-        this.changed.delete(variable);
-      }
-    }
   }
 
   change(v: Variable, transformation: string, event: any) {
@@ -154,7 +130,7 @@ export class DataTransformationComponent implements OnInit {
       (this.isSaving = true), (this.error = '');
       this.commons.transformData(this.dt, this.changed).subscribe(
         () => {
-          this.commons.snack(`Variables' transformation saved.`);
+          this.commons.snack(`Variables transformation saved.`);
           (this.isSaving = false);
         },
       );
@@ -187,27 +163,17 @@ export class DataTransformationComponent implements OnInit {
       this.isSaving = true;
       this.error = '';
       // transform variables
-      this.commons.transformData(this.dt, this.changed).subscribe(
-        () => {
-          // create a new Dt
-          this.commons.newDt(this.project).subscribe(
-            tmpNewDt => {
-              var newDt = new Dt();
-              newDt = tmpNewDt;
-              newDt.name = this.dt.name;
-              // change new QC to match the old one
-              this.commons.transformData(newDt, this.changed).subscribe(
-                () => {
-                  this.commons.snack(`Variables transformed`);
-                  this.isSaving = false;
-                  this.commons.goDt(newDt);
-                  setTimeout(function () {
-                    location.reload();
-                  }, 200);
-                },
-              );
-            },
-          );
+      this.commons.duplicateDT(this.dt, this.changed).subscribe(
+        tmpNewDt => {
+          var newDt = new Dt();
+          newDt = tmpNewDt;
+          newDt.name = this.dt.name;
+          this.commons.snack(`Variables transformed`);
+          this.isSaving = false;
+          this.commons.goDt(newDt);
+          setTimeout(function () {
+            location.reload();
+          }, 200);
         },
       );
     };

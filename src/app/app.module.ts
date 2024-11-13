@@ -73,6 +73,16 @@ import { ResultWarningsComponent } from './result-final/result-warnings/result-w
 import { DataTransformationComponent } from './data-transformation/data-transformation.component';
 import { BinaryDialogComponent } from './data-transformation/binary-dialog/binary-dialog.component';
 import { DataPreQcComponent } from './qc/data-pre-qc/data-pre-qc.component';
+import { CategoricalDialogComponent } from './data-transformation/categorical-dialog/categorical-dialog.component';
+import { DocumentationComponent } from './documentation/documentation.component';
+import { TutorialComponent } from './documentation/tutorial/tutorial.component';
+import { WelcomeToLimestoneComponent } from './documentation/welcome-to-limestone/welcome-to-limestone.component';
+import { FileFormatComponent } from './documentation/file-format/file-format.component';
+import { DocDataTransformationComponent } from './documentation/doc-data-transformation/doc-data-transformation.component';
+import { DocQualityControlComponent } from './documentation/doc-quality-control/doc-quality-control.component';
+import { TutorialVariableSelectionComponent } from './documentation/tutorial-variable-selection/tutorial-variable-selection.component';
+import { TutorialResultsComponent } from './documentation/tutorial-results/tutorial-results.component';
+import { LicenseComponent } from './documentation/license/license.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +126,17 @@ import { DataPreQcComponent } from './qc/data-pre-qc/data-pre-qc.component';
     ResultWarningsComponent,
     DataTransformationComponent,
     BinaryDialogComponent,
-    DataPreQcComponent
+    DataPreQcComponent,
+    CategoricalDialogComponent,
+    DocumentationComponent,
+    TutorialComponent,
+    WelcomeToLimestoneComponent,
+    FileFormatComponent,
+    DocDataTransformationComponent,
+    DocQualityControlComponent,
+    TutorialVariableSelectionComponent,
+    TutorialResultsComponent,
+    LicenseComponent
   ],
   imports: [
     HttpClientModule,

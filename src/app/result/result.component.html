@@ -2,22 +2,35 @@
 <div *ngIf="analyse && !analyse.completed && analyse.progress">
   <mat-progress-bar mode="determinate" color="warn" [value]="analyse.progress.percentage"></mat-progress-bar>
 </div>
-
-<mat-card *ngIf="!distrib && result" class="view-container">
-  <mat-card-content style="text-align: center;">
-    <!--<mat-horizontal-stepper>
-      <mat-step label="Initialisation" [completed]="result.status > 0"> </mat-step>
-      <mat-step label="Data generation" [completed]="result.status > 19"> </mat-step>
-      <mat-step [label]="dataProcessingLabel" [completed]="result.status > 29"> </mat-step>
-      <mat-step label="End"> </mat-step>
-    </mat-horizontal-stepper>-->
-    <div *ngIf="analyse && analyse.progress && analyse.progress.startTime">Data processing started at: {{ analyse.progress.startTime | date: 'medium' }}</div>
-    <mat-card-header style="font-size: large; display: flex; justify-content: center;">Your analysis is running</mat-card-header>
-    <p style="font-size: medium; width: 60%; margin: auto;">This step can takes some time, up to 15 min. 
-      You can quit this page and return later for your results.
-    </p>
-  </mat-card-content>
-</mat-card>
+<div class="main-div">
+  <mat-card *ngIf="!distrib && result" class="view-container">
+    <mat-card-content style="font-size: medium;">
+      <div style="text-align: center;">
+        <p *ngIf="estimatedTime==-1">
+          Calculating a time estimate...
+        </p>
+        <div *ngIf="estimatedTime!=-1">
+          <p  *ngIf="estimatedTime<=1">
+            The analysis will probably take less than 1 min.
+          </p>
+          <span  *ngIf="estimatedTime>1 && estimatedTime<=60">The analysis will take around {{estimatedTime}} min.</span>
+          <span  *ngIf="estimatedTime>=60">The analysis will take around {{estimatedTime/60}} hour.</span>
+          <br>
+          <span *ngIf="estimatedEndTimeMin<10">Estimated end time : {{estimatedEndTimeHour}}:0{{estimatedEndTimeMin}}</span>
+          <span *ngIf="estimatedEndTimeMin>=10">Estimated end time : {{estimatedEndTimeHour}}:{{estimatedEndTimeMin}}</span>
+          <span *ngIf="endTommorow==true"> tommorow.</span>
+          <br>
+          <span>You can quit this page and return later for your results.</span>
+          <br>
+          <span *ngIf="tooLong==true">Your analysis takes more than 24h to complete and may not be able to run with our current computational power.</span>
+        </div>
+        <br>
+        <p *ngIf="progressPercentage!=-1">Your analysis is running : {{progressPercentage}}%</p>
+      </div>
+      <mat-progress-bar *ngIf="progressPercentage!=-1" mode="determinate" [value]="progressPercentage" style="width: 50%; margin: auto;"></mat-progress-bar>
+    </mat-card-content>
+  </mat-card>
+</div>
 <app-result-final *ngIf="distrib" [analyse]="analyse" [distrib]="distrib" [result]="result" [preselection]="ass.preselection" [logistic]="ass.logistic"></app-result-final>
 <mat-card *ngIf="analyse?.error" class="view-container">
   <mat-card-content>

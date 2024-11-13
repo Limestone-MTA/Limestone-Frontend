@@ -1,0 +1,237 @@
+<div class="container">
+    <div class="content">
+        <header>
+            <h1>Understanding Regression Outputs</h1>
+            <p>
+                After running a regression analysis, the results will be displayed in a tabular format. 
+                Below is a guide to help you understand the key components of the output for both <strong>Linear Regression</strong> 
+                and <strong>Logistic Regression</strong>.
+            </p>
+        </header>
+    
+        <section>
+            <a id="step_1" class="anchor"></a>        
+            <h2>Linear Regression Results</h2>
+            <p>
+                Linear regression aims to model the relationship between a dependent variable (Y) and one or more independent variables (X) by fitting a linear equation to observed data.
+            </p>
+            <h3>Key Elements in the Output:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Coefficients (β)</strong></td>
+                        <td>
+                            Represents the expected change in the dependent variable for a one-unit change in the independent variable, holding other variables constant. 
+                            A positive coefficient means an increase in X leads to an increase in Y, while a negative coefficient means the opposite.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>P-Value</strong></td>
+                        <td>
+                            Indicates the statistical significance of the coefficient. A p-value less than 0.05 typically means the variable is significantly associated with the dependent variable 
+                            (rejects the null hypothesis).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>R-squared (R²)</strong></td>
+                        <td>
+                            Measures the proportion of variation in the dependent variable that can be explained by the independent variables. 
+                            A value closer to 1 indicates a better fit.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Standard Error</strong></td>
+                        <td>
+                            Reflects the variability or uncertainty of the coefficient estimate. Lower values suggest a more precise estimate.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            <h3>Example Output Table:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>R-squared (R²)</th>
+                        <th>Coefficient (β)</th>
+                        <th>Standard Error</th>
+                        <th>P-Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Age</td>
+                        <td>0,0025</td>
+                        <td>-0.05</td>
+                        <td>0.01</td>
+                        <td>0.001</td>
+                    </tr>
+                    <tr>
+                        <td>Income</td>
+                        <td>0,01</td>
+                        <td>0.10</td>
+                        <td>0.02</td>
+                        <td>0.03</td>
+                    </tr>
+                </tbody>
+            </table>
+            <strong>How to Interpret:</strong><br>
+            <ul>
+                <li><strong>Age:</strong> For every additional year in age, the dependent variable decreases by 0.05, holding all other variables constant.</li>
+                <li><strong>Income:</strong> For every unit increase in income, the dependent variable increases by 0.10, and the association is statistically significant (p-value &#60; 0.05).</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Logistic Regression Results</h2>
+            <p>
+                Logistic regression is used when the dependent variable is binary (e.g., yes/no, success/failure). Instead of predicting a continuous outcome, it predicts the probability of the dependent variable belonging to a particular category.
+            </p>
+
+            <h3>Key Elements in the Output:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Coefficients (β)</strong></td>
+                        <td>
+                            Represents the log-odds of the dependent variable changing with a one-unit change in the independent variable.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Odds Ratio (Exp(β))</strong></td>
+                        <td>
+                            The exponentiated coefficient (Exp(β)) shows how the odds of the outcome change with a one-unit increase in the predictor. 
+                            An odds ratio > 1 means increased odds, while an odds ratio &#60; 1 means decreased odds.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>P-Value</strong></td>
+                        <td>
+                            Similar to linear regression, a p-value less than 0.05 indicates a statistically significant relationship between the predictor and the outcome variable.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Standard Error</strong></td>
+                        <td>
+                            Measures the precision of the coefficient estimate. Lower values indicate more reliable estimates.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Example Output Table:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Coefficient (β)</th>
+                        <th>Odds Ratio (Exp(β))</th>
+                        <th>Standard Error</th>
+                        <th>P-Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Intercept</td>
+                        <td>-1.20</td>
+                        <td>-</td>
+                        <td>0.50</td>
+                        <td>0.02</td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td>0.08</td>
+                        <td>1.08</td>
+                        <td>0.02</td>
+                        <td>0.001</td>
+                    </tr>
+                    <tr>
+                        <td>Income</td>
+                        <td>-0.10</td>
+                        <td>0.90</td>
+                        <td>0.03</td>
+                        <td>0.03</td>
+                    </tr>
+                </tbody>
+            </table>
+            <strong>How to Interpret:</strong><br>
+            <ul>
+                <li><strong>Intercept:</strong> The baseline log-odds of the outcome is -1.20 when all other predictors are zero.</li>
+                <li><strong>Age:</strong> For every additional year in age, the odds of the outcome increase by 8% (OR = 1.08). The relationship is statistically significant (p-value < 0.05).</li>
+                <li><strong>Income:</strong> For every unit increase in income, the odds of the outcome decrease by 10% (OR = 0.90), which is also statistically significant.</li>
+            </ul>
+        </section>
+        <section>
+            <a id="step_3" class="anchor"></a>
+            <h2>Key Metrics to Watch</h2>
+            <p>
+                Here are some key metrics to keep in mind when interpreting regression results:
+            </p>
+
+            <h3>P-Value</h3>
+            <p>
+                The p-value tells you whether the relationship between a predictor and the dependent variable is statistically significant.
+            </p>
+            <ul>
+                <li><strong>P-Value &#60; "Bonferroni threshold":</strong> The relationship is statistically significant (you can reject the null hypothesis).</li>
+                <li><strong>P-Value ≥ "Bonferroni threshold":</strong> The relationship is not statistically significant (insufficient evidence to reject the null hypothesis).</li>
+            </ul>
+
+            <h3>Coefficient vs. Odds Ratio</h3>
+            <ul>
+                <li>In <strong>Linear Regression</strong>, the <strong>Coefficient</strong> represents the change in the dependent variable for a one-unit increase in the independent variable.</li>
+                <li>In <strong>Logistic Regression</strong>, the <strong>Odds Ratio (Exp(β))</strong> represents how the odds of the outcome change with a one-unit increase in the predictor. This is crucial for understanding risk, probability, or likelihood in binary outcomes.</li>
+            </ul>
+
+            <h3>Confidence Interval</h3>
+            <p>
+                The <strong>Confidence Interval</strong> provides a range of plausible values for the coefficient or odds ratio.
+            </p>
+                
+            <ul>
+                <li>In <strong>Linear Regression</strong>, if the confidence interval for a coefficient crosses zero, it suggests that the effect may not be statistically significant.</li>
+                <li>In <strong>Logistic Regression</strong>, if the confidence interval for an odds ratio crosses one, it suggests the odds ratio may not be statistically significant.</li>
+            </ul>
+        </section>
+        <section>
+            <a id="step_4" class="anchor"></a>
+            <h2>Practical Tips for Interpretation</h2>
+        
+            <p>To effectively interpret regression results, keep the following tips in mind:</p>
+            
+            <ul>
+                <li><strong>Significance:</strong> Focus on predictors with p-values &#60; "Bonferroni threshold" as they indicate statistically significant associations.</li>
+                <li><strong>Magnitude:</strong> The coefficients (or odds ratios) tell you the strength and direction of the relationship. 
+                    Look at the sign (+/-) to understand whether the relationship is positive or negative.</li>
+                <li><strong>Model Fit:</strong> In <strong>Linear Regression</strong>, check the <strong>R-squared</strong> value to understand how well the model explains the data. 
+                    In <strong>Logistic Regression</strong>, you can use measures like <strong>AIC</strong> or <strong>Pseudo R-squared</strong> to assess model fit.</li>
+            </ul>
+        </section>
+    </div>
+    <div class="tableOfContentContainer">
+        <div class="tableOfContent docs-toc-container">
+            <div class="docs-toc-heading">Table of contents</div>
+            <nav>
+                <a href="/documentation/results/#step_1">Linear Regression</a>
+                <br>
+                <a href="/documentation/results/#step_2">Logistic Regression</a>
+                <br>
+                <a href="/documentation/results/#step_3">Key Metrics</a>
+                <br>
+                <a href="/documentation/results/#step_4">Interpretation</a>
+            </nav>
+        </div>
+    </div>
+</div>

@@ -39,7 +39,7 @@ export class BinaryDialogComponent {
   }
 
   applyChanges() {
-    this.variable.transform = "Binary"
+    this.variable.transform = "Binary";
     this.changed.add(this.variable);
   }
 }

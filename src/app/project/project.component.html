@@ -1,35 +1,35 @@
 <mat-progress-bar mode="indeterminate" color="warn" *ngIf="!project"></mat-progress-bar>
-<div style="width: 80%;margin: auto;margin-top: 0.5em">
-  <div *ngIf="project" style="margin-bottom: 0.5em;">
-    <button mat-button class="navigation-button" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <span class="material-symbols-outlined">counter_0</span>
-      Project
-    </button>
-    <button mat-button disabled class="navigation-disabled">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <span class="material-symbols-outlined">counter_1</span>
-      Data Transformation
-    </button>
-    <button mat-button disabled class="navigation-disabled">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <span class="material-symbols-outlined">counter_2</span>
-        Quality Control
-    </button>
-    <button mat-button disabled class="navigation-disabled">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <span class="material-symbols-outlined">counter_3</span>
-      Variables Selection
-    </button>
-    <button mat-button disabled class="navigation-disabled">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <span class="material-symbols-outlined">counter_4</span>
-      Results
-    </button>
-  </div>
-  <mat-progress-bar mode="determinate" value="11"></mat-progress-bar>
-</div>
 <mat-card *ngIf="project" class="view-container">
+  <div style="width: 80%;margin: auto;margin-top: 0.5em">
+    <div *ngIf="project" style="margin-bottom: 0.5em;">
+      <button mat-button class="navigation-button" [routerLink]="['/p', project.ident]" title="Go to project {{project.ident}}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <span class="material-symbols-outlined">counter_0</span>
+        Project
+      </button>
+      <button mat-button disabled class="navigation-disabled">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <span class="material-symbols-outlined">counter_1</span>
+        Data Transformation
+      </button>
+      <button mat-button disabled class="navigation-disabled">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+          <span class="material-symbols-outlined">counter_2</span>
+          Quality Control
+      </button>
+      <button mat-button disabled class="navigation-disabled">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <span class="material-symbols-outlined">counter_3</span>
+        Variables Selection
+      </button>
+      <button mat-button disabled class="navigation-disabled">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <span class="material-symbols-outlined">counter_4</span>
+        Results
+      </button>
+    </div>
+    <mat-progress-bar mode="determinate" value="11"></mat-progress-bar>
+  </div>
   <mat-card-header>
     <mat-card-title-group>
       <mat-card-title>{{project.name}}</mat-card-title>

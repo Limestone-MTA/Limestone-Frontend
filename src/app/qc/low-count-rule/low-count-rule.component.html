@@ -4,6 +4,6 @@
     </mat-slider>
     <mat-form-field>
         <mat-label>Value</mat-label>
-        <input class="slider-input" matInput type="number" [(ngModel)]="qc.lowCountRule" name="lowCountRule" (input)="lowCountRuleOnInputChange($event.target)" [readonly]="readonly" />
+        <input class="slider-input" matInput type="number" [(ngModel)]="qc.lowCountRule" [readonly]="readonly" name="lowCountRule" (input)="lowCountRuleOnInputChange($event.target)" [readonly]="readonly" />
     </mat-form-field>
 </div>

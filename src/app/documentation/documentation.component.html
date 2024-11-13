@@ -1,0 +1,31 @@
+<div class="container">
+    <mat-nav-list class="documentation-navigation">
+        <a mat-list-item routerLink="/documentation/welcome_to_limestone/" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/welcome_to_limestone/" routerLinkActive="active-text">Welcome</span>
+        </a>
+        <a mat-list-item routerLink="/documentation/tutorial" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/tutorial" routerLinkActive="active-text">Getting started</span>
+        </a>
+        <a mat-list-item routerLink="/documentation/file_format" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/file_format" routerLinkActive="active-text">File format</span>
+        </a>
+        <a mat-list-item routerLink="/documentation/data_transformation" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/data_transformation" routerLinkActive="active-text">Data transformation</span>
+        </a>
+        <a mat-list-item routerLink="/documentation/quality_control" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/quality_control" routerLinkActive="active-text">Quality control</span>
+        </a>
+        <a mat-list-item routerLink="/documentation/variable_selection" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/variable_selection" routerLinkActive="active-text">Variable selection</span>
+        </a>
+        <a mat-list-item routerLink="/documentation/results" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/results" routerLinkActive="active-text">Results</span>
+        </a>
+        <a mat-list-item routerLink="/documentation/license" routerLinkActive="active-nav" onclick="this.blur()">
+            <span matListItemTitle class="button-text" routerLink="/documentation/license" routerLinkActive="active-text">Terms of use</span>
+        </a>
+    </mat-nav-list>
+    <div style="flex: 1; margin: 2em;">
+        <router-outlet></router-outlet>
+    </div>
+</div>

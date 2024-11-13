@@ -87,31 +87,21 @@ export class QcComponent implements OnInit {
   duplicate = (qc: Qc) => {
     this.isSaving = true;
     // save current QC
-    this.commons.patchQc(qc).subscribe(
-      () => {
-        // create a new QC
-        this.commons.newQc(this.dt, this.project).subscribe(
-          tmpNewQc => {
-            var newQc = new Qc();
-            newQc = tmpNewQc;
-            newQc.name = qc.name;
-            newQc.lowCountRule = qc.lowCountRule;
-            newQc.outliersChoose = qc.outliersChoose;
-            newQc.distanceMean = qc.distanceMean;
-            newQc.missingThreshold = qc.missingThreshold;
-            // change new QC to match the old one
-            this.commons.patchQc(newQc).subscribe(
-              () => {
-                this.commons.snack(`Global parameters duplicated`);
-                this.isSaving = false;
-                this.commons.goQc(newQc);
-                setTimeout(function () {
-                  location.reload();
-                }, 200);
-              },
-            );
-          },
-        );
+    this.commons.duplicateQC(qc).subscribe(
+      tmpNewQc => {
+        var newQc = new Qc();
+        newQc = tmpNewQc;
+        newQc.name = qc.name;
+        newQc.lowCountRule = qc.lowCountRule;
+        newQc.outliersChoose = qc.outliersChoose;
+        newQc.distanceMean = qc.distanceMean;
+        newQc.missingThreshold = qc.missingThreshold;
+        this.commons.snack(`Global parameters duplicated`);
+        this.isSaving = false;
+        this.commons.goQc(newQc);
+        setTimeout(function () {
+          location.reload();
+        }, 200);
       },
     );
   };

@@ -1,16 +1,23 @@
+.container{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
 .mat-button {
-    min-width: 0;
     padding-left: 0;
     padding-right: 0;
 }
 
 .text-button {
-    padding-bottom: 0.5em;
-    width: 10%;
+    min-width: 100px;
     font-size: large;
+    vertical-align: baseline;
+    text-align: center;
 }
 
 .icon-button {
+    min-width: 50px;
     width: 5%;
 }
 
@@ -19,8 +26,4 @@
 }
 .sep {
     width: initial;
-}
-
-.nav-toolbar {
-    margin-bottom: 0.5em;
 }

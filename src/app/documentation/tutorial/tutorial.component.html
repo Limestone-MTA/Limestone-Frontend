@@ -1,0 +1,123 @@
+<div class="container">
+    <div class="content">
+        <header>
+            <h1>Getting Started with Limestone</h1>
+            <p>In this guide, we'll walk you through the basic steps to get started with Limestone. 
+                By the end, you'll know how to import your data, generate visualizations and perform your first analysis.</p>
+        </header>
+    
+        <section class="steps">
+            <a id="step_1" class="anchor"></a>
+            <h2>Step 1: Create an new project</h2>
+            <p>
+                The first step to start your analysis on <span class="tool-name">Limestone</span> is to create a new project with your dataset.<br>
+                You can get to the "Create a new project" page from the home or project list.
+                Enter your project name and a description then you can upload a text, CSV or Excel file.<br><br>
+                A brief explanation on the file format required is explained on this page but you can check the more detailed explanation here: <a href="#">File format</a><br>
+                Once your project is ready you will be redirect to your project summary page.
+            </p>
+            <div class="image-container">
+                <img src="assets/images/tutorial_create_project.png" class="image-tutorial">
+            </div>
+        </section>
+    
+        <section class="steps">
+            <a id="step_2" class="anchor"></a>
+            <h2>Step 2: Start a new analysis</h2>
+            <p>
+                After you created a project you can start an analysis from the "Project summary" page by simply clicking on the "create an analysis" button.<br>
+                An analysis has several steps :
+            </p>
+            <ul>
+                <li><strong>I. Data transformation:</strong> Transform some of your variables, notably text variables.</li>
+                <li><strong>II. Quality control:</strong> Apply quality filters on your variables.</li>
+                <li><strong>III. Variable selection:</strong> Create your model by selecting which variable to include and which statistical test to perform.</li>
+                <li><strong>IV. Results:</strong> Look into your results and download the complete table for further analysis.</li>
+            </ul>
+            <div class="image-container">
+                <img src="assets/images/tutorial_project_summary.png" class="image-tutorial">
+                <img src="assets/images/tutorial_create_analysis.png" class="image-tutorial">
+            </div>
+            <p>
+                You can choose to go through every steps for a precise control over your data or directly jump to the variable selection step 
+                by using the default parameters.
+                To take a closer look at the "Data transformation" and "Quality control" steps please check the specific documentation about those steps here :
+            </p>
+            <ul>
+                <li><a href="/components/list/overview#simple-lists" class="docs-level-h3 docs-link ng-star-inserted">Data transformation</a></li>
+                <li><a href="/components/list/overview#simple-lists" class="docs-level-h3 docs-link ng-star-inserted">Quality control</a></li>
+            </ul>
+        </section>
+    
+        <section class="steps">
+            <a id="step_3" class="anchor"></a>
+            <h2>Step 3: Visualize your data</h2>
+            <p>At any steps of the analysis, you can click on your variables names to visualize more informations about it.<br>
+                This will allow you to view the type, mean, variance and the distribution of your data.</p>
+            <div class="image-container">
+                <img src="assets/images/tutorial_visualisation.png" class="image-tutorial">
+            </div>
+        </section>
+    
+        <section class="steps">
+            <a id="step_4" class="anchor"></a>
+            <h2>Step 4: Variables selection</h2>
+            <p>
+                At this step you need to select which variables to add in your model.<br>
+                Variables can be either :
+            </p>
+            <ul>
+                <li><strong>Outcome:</strong> Variable to be predicted </li>
+                <li><strong>Predictor:</strong> Variable that will explain the predictor </li>
+                <li><strong>Confounder:</strong> Variable that influence both outcome and predictor causing a bias in the analysis. Adding them as confounder removes this bias.</li>
+                <li><strong>Covariate:</strong> Variable that will be used by our Musical chair approach to improve statistical power.</li>
+            </ul>
+            <p>
+                For more details about this step don't hesitate to check the specific documentation: 
+                <a href="/components/list/overview#simple-lists" class="docs-level-h3 docs-link ng-star-inserted">Variable selection.</a>
+            </p>
+            <div class="image-container">
+                <img src="assets/images/tutorial_variable_selection.png" class="image-tutorial">
+            </div>
+        </section>
+        <section class="steps">
+            <a id="step_5" class="anchor"></a>
+            <h2>Step 5: Results</h2>
+            <p>Once the analysis has been completed you can with your results directly. For each couple Outcome-Predictor you have the results for 2 models: </p>
+            <ul>
+                <li>The <strong>standard model</strong> using only the Outcome, Predictor and Confounders from your selection. (Y ~ X + F)</li>
+                <li>The <strong>Musical chair</strong> approach also adding the Covariates selected by the method to improve the statistical power of the analysis. (Y ~ X + F + C)</li>
+            </ul> 
+            <p>The results are composed of : </p>
+            <ul>
+                <li>The <strong>coefficient</strong> of the regression "&beta;" indicating the strength and direction of the association.</li>
+                <li>The <strong>p-value </strong> indicating if this association is significant, the threshold for significativness is indicated with the Bonferroni correction at the top of the page.</li>
+            </ul>
+            <p>You have the option of downloading the result file to continue your analysis further.    </p>
+            <div class="image-container">
+                <img src="assets/images/tutorial_result.png" class="image-tutorial">
+            </div>
+            <br>
+            <p>To get more details about a specific association you can click on the loop on the left to open the complete details of the model, inculding all variables selected in the standard and Musical chair approaches.</p>
+            <div class="image-container">
+                <img src="assets/images/tutorial_association_result.png" class="image-tutorial">
+            </div>
+        </section>
+    </div>
+    <div class="tableOfContentContainer">
+        <div class="tableOfContent docs-toc-container">
+            <div class="docs-toc-heading">Table of contents</div>
+            <nav>
+                <a href="/documentation/tutorial/#step_1">Create a new project</a>
+                <br>
+                <a href="/documentation/tutorial/#step_2">Start a new analysis</a>
+                <br>
+                <a href="/documentation/tutorial/#step_3">Visualize your data</a>
+                <br>
+                <a href="/documentation/tutorial/#step_4">Variable selection</a>
+                <br>
+                <a href="/documentation/tutorial/#step_5">Results</a>
+            </nav>
+        </div>
+    </div>
+</div>

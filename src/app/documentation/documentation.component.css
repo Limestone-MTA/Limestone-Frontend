@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.documentation-navigation {
+    position: fixed;
+    top: 64px;
+    height: 100vh;
+    width: 210px;
+    font-size: larger;
+    border-right: solid;
+    border-right-width: 0.5px;
+    border-right-color: lightgray;
+}
+
+.button-text {
+    font-size: large;
+    font-style: normal;
+    text-decoration: none;
+}
+
+.active-text {
+    color: #3F51B5;
+}
+
+.active-nav {
+    background-color: #DEE1F0;
+}
+
+
+.active-nav:focus {
+    background-color: transparent;
+}
+
+.active-nav span{
+    color: #3F51B5;
+}

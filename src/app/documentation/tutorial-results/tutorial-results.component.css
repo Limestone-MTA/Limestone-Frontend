@@ -1,0 +1,126 @@
+.container {
+    height: 100%;
+    margin-top: 1em;
+    display: flex;
+    margin-left: 250px;
+}
+
+.content {
+    flex:1;
+}
+
+.tableOfContentContainer{
+    padding-top: 1em;
+    padding-left: 2em;
+    min-width: 200px;
+    position: sticky;
+    top: 110px;
+    align-self: flex-start;
+}
+.docs-toc-container {
+    border-left: 4px solid #3f51b5;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: #737373;
+    font-weight: 400 !important;
+}
+a:hover{
+    color: #3f51b5;
+}
+.tableOfContent{
+    padding: 5px 0 10px 10px;
+    font-size: 13px;
+}
+
+
+header {
+    padding: 20px;
+    text-align: center;
+}
+
+.tool-name {
+    font-weight: bold;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+ul {
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+a {
+    color: #3F51B5;
+    text-decoration: none;
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -100px;
+    visibility: hidden;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+section {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Table Styling */
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+thead {
+    background-color: #3F51B5;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+tbody td {
+    color: #333;
+}

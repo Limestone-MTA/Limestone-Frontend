@@ -75,6 +75,11 @@ export class Result {
   status!: number;
 }
 
+export class Progress {
+  estimatedTime: number;
+  progressPercentage: number;
+}
+
 export class Summary {
   nominally: any[] = [];
   Pvalue!: number;

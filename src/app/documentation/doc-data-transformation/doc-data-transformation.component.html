@@ -1,0 +1,549 @@
+<div class="container">
+    <div class="content">
+        <header>
+            <h1>Data Transformation Step</h1>
+            <p>
+                In order to analyse textual variables you need to transform them into numerical variables, this is possible in this step.<br>
+                You can also apply mathematical transformation to continuous varibales if needed for better interpretability.
+            </p>
+        </header>
+    
+        <section>
+            <a id="step_1" class="anchor"></a>
+            <h2>Transforming Categorical Variables into Binary Numerical Variables</h2>
+            <p>
+                In many cases, categorical variables with only two categories (i.e., <strong>binary categorical variables</strong>)
+                can be transformed into a single <strong>binary numerical variable</strong>. This is a simple and efficient way 
+                to prepare binary categorical data for models that require numerical input.
+            </p>
+            <h3>a. Why Use Binary Numerical Transformation?</h3>
+            <ul>
+                <li><strong>Simplicity:</strong> For variables with only two categories, transforming them into a single binary numerical variable is often simpler and more efficient than creating multiple dummy variables.</li>
+                <li><strong>Model Compatibility:</strong> Many algorithms require numerical inputs, and binary variables (0 or 1) are easy for models to handle.</li>
+                <li><strong>Interpretability:</strong> Binary variables are straightforward to interpret, especially in models like logistic regression where they represent probabilities or outcomes.</li>
+            </ul>
+            <h3>b. Example of Binary Numerical Transformation</h3>
+            <div style="display: flex;">
+                <table style="width: 45%; flex: auto; margin-right: 1em;">
+                    <caption>Original Categorical Data</caption>
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Purchased (Yes/No)</th>
+                            <th>Gender (Male/Female)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>101</td>
+                            <td>Yes</td>
+                            <td>Male</td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>No</td>
+                            <td>Female</td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>Yes</td>
+                            <td>Female</td>
+                        </tr>
+                        <tr>
+                            <td>104</td>
+                            <td>No</td>
+                            <td>Male</td>
+                        </tr>
+                        <tr>
+                            <td>105</td>
+                            <td>Yes</td>
+                            <td>Female</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table style="width: 45%; flex: auto; margin-left: 1em;">
+                    <caption>Transformed into Binary Numerical Data</caption>
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Purchased (Binary)</th>
+                            <th>Gender (Binary)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>101</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>104</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>105</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3>c. Handling Missing Values in Binary Encoding</h3>
+            <p>
+                When transforming categorical variables into binary numerical ones, it’s important to consider how missing values are treated.
+                In limestone we decided to <strong>ignore missing values</strong>.
+            </p>
+            <table>
+                <caption>Transformed Data with Ignoring Missing Values</caption>
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Gender (Male/Female)</th>
+                        <th>Gender (Binary)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Male</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Female</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Female</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>Male</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>NA</td>
+                        <td>NA</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <a id="step_2" class="anchor"></a>
+            <h2>Creating Dummy Variables (One-Hot Encoding)</h2>
+            <p>
+                When you have a categorical variable with more than two categories, you can’t directly transform it into a single binary numerical variable. 
+                Instead, you use a technique called <strong>dummy variables</strong> or <strong>one-hot encoding</strong>. 
+                This process converts each category into a separate binary variable, ensuring the model can interpret the data correctly.
+            </p>
+        
+            <h3>a. What is One-Hot Encoding?</h3>
+            <p>
+                One-hot encoding is a method where each unique category in a categorical variable is converted into a new column (or variable), 
+                and each instance is marked with either <strong>1</strong> (for the corresponding category) or <strong>0</strong> (for the other categories). 
+                This ensures that the categorical data is represented in a format that is interpretable by most machine learning models.
+            </p>
+        
+            <h3>b. Why Use Dummy Variables?</h3>
+            <ul>
+                <li><strong>Handling Multiple Categories:</strong> Dummy variables enable you to properly represent categorical data with more than two categories (e.g., "Red", "Blue", "Green").</li>
+                <li><strong>Model Compatibility:</strong> Most models expect numerical inputs, and dummy variables convert non-numerical categories into numbers in a way the model can understand.</li>
+                <li><strong>Preventing Ordinal Misinterpretation:</strong> Unlike encoding categories with numbers like 1, 2, and 3, which might imply an ordinal relationship, dummy variables make no assumptions about the ordering of categories.</li>
+            </ul>
+        
+            <h3>c. Example of One-Hot Encoding</h3>
+            <p>
+                Consider the following dataset with a categorical variable "Color" that has three categories: "Red", "Blue", and "Green".
+            </p>
+        
+            <table>
+                <caption>Original Categorical Data</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Red</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Blue</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Green</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>Red</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>Blue</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            <p>After applying one-hot encoding, the "Color" column is transformed into three separate columns: "Color_Red", "Color_Blue", and "Color_Green".</p>
+        
+            <table>
+                <caption>Transformed Data with Dummy Variables</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Color_Red</th>
+                        <th>Color_Blue</th>
+                        <th>Color_Green</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            <h3>d. Avoid Multicollinearity</h3>
+            <p>
+                When applying dummy variables, we need to avoid creating a variable for every single category to avoid multicollinearity in certain models like linear regression.
+                Instead, you are asked to select a value of reference drop one of the dummy variables (known as the "reference category").
+            </p>
+            <h3>e. Handling Missing Values in Dummy Variables</h3>
+            <p>
+                When transforming categorical variables into dummy variables, it’s important to consider how missing values are treated. 
+                In limestone we decided to <strong>ignore missing values</strong>.
+            </p>
+            <table>
+                <caption>Original Categorical Data</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Red</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Blue</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Green</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>NA</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>Blue</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <caption>Transformed Data with Dummy Variables</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Color_Red</th>
+                        <th>Color_Blue</th>
+                        <th>Color_Green</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>NA</td>
+                        <td>NA</td>
+                        <td>NA</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <a id="step_3" class="anchor"></a>
+            <h2>Applying Mathematical Transformations on Numerical Variables</h2>
+            <p>
+                Mathematical transformations are essential for preparing numerical variables for analysis and modeling. 
+                These transformations can help normalize data, reduce skewness, or improve interpretability. Below are key aspects to consider when applying mathematical transformations.
+            </p>
+        
+            <h3>1. Why Apply Mathematical Transformations?</h3>
+            <ul>
+                <li><strong>Skewness Reduction:</strong> To correct skewed distributions, making data more symmetric and suitable for statistical analysis.</li>
+                <li><strong>Enhancing Interpretability:</strong> To make relationships within the data clearer and more interpretable for stakeholders.</li>
+            </ul>
+
+            <h3>2. Logarithmic Transformation</h3>
+            <p>
+                <strong>Description:</strong> Applies the natural logarithm to each value in the variable. Useful for reducing right skewness.
+            </p>
+            <p>
+                <strong>Formula:</strong> 
+                <code>  Y' = log(Y)</code>
+            </p>
+            <p>
+                <strong>When to Use:</strong> When data ranges widely or has a long tail on the right.
+            </p>
+            <p>
+                Consider the following dataset with sales figures that are right-skewed:
+            </p>
+            <table>
+                <caption>Original Sales Data</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1000</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2000</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>5000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>After applying a logarithmic transformation:</p>
+
+            <table>
+                <caption>Transformed Sales Data (Logarithmic)</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Sales</th>
+                        <th>Log(Sales)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>100</td>
+                        <td>4.605</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>500</td>
+                        <td>6.215</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1000</td>
+                        <td>6.908</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2000</td>
+                        <td>7.601</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>5000</td>
+                        <td>8.517</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                <strong>Handling negative values :</strong><br>
+                When dealing with logarithmic transformations, 
+                handling negative values requires special consideration, as the logarithm of a negative number is undefined in real numbers. 
+                In Limestone we decided to shift the data:
+            </p>
+            <p>
+                We shift the entire dataset by adding a constant to all values. This constant is the minimum value of your data plus an small offset (0.0001). 
+                For example, if your dataset ranges from -50 to 100, we add 50 to every value:
+            </p>
+            <pre><code>Y' = Y + 50 + 0.0001</code></pre>
+            <p>
+                After this transformation, all values would be positive, allowing you to apply the logarithmic transformation:
+            </p> 
+        
+            <h3>3. Rank Inverse Normal Transformation</h3>
+            <p>
+                The rank inverse normal transformation converts raw data into a normal distribution by ranking the values and applying the inverse normal function.
+                This method is particularly useful for datasets that deviate significantly from normality.
+            </p>
+            <p>Consider the same sales data:</p>
+
+            <table>
+                <caption>Original Sales Data for Rank Inverse Normal Transformation</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1000</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2000</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>5000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>After applying the rank inverse normal transformation:</p>
+
+            <table>
+                <caption>Transformed Sales Data (Rank Inverse Normal)</caption>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Sales</th>
+                        <th>Rank</th>
+                        <th>Inverse Normal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>100</td>
+                        <td>1</td>
+                        <td>-1.2816</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>500</td>
+                        <td>2</td>
+                        <td>-0.5249</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1000</td>
+                        <td>3</td>
+                        <td>0.0000</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2000</td>
+                        <td>4</td>
+                        <td>0.5249</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>5000</td>
+                        <td>5</td>
+                        <td>1.2816</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>      
+    </div>
+    <div class="tableOfContentContainer">
+        <div class="tableOfContent docs-toc-container">
+            <div class="docs-toc-heading">Table of contents</div>
+            <nav>
+                <a href="/documentation/data_transformation/#step_1">Binary variables</a>
+                <br>
+                <a href="/documentation/data_transformation/#step_2">Dummy variables</a>
+                <br>
+                <a href="/documentation/data_transformation/#step_3">Mathematical Transformations</a>
+            </nav>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<mat-card *ngIf="variable" class="card">
+    <mat-card-header>
+      <mat-card-title>
+        <span title="ID: {{variable.ident}}">Select the value of reference for {{variable.name}}</span>
+      </mat-card-title>
+      <mat-card-subtitle *ngIf="list_categories">This step will transform your categorical variable into {{list_categories.length - 1}} binary variables.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content style="text-align: center;">
+      <mat-spinner *ngIf="!this.list_categories" style="margin: auto;"></mat-spinner>
+      <mat-form-field *ngIf="this.list_categories" style="margin-top: 1em;">
+        <mat-label>Select value of reference</mat-label>
+        <mat-select [(ngModel)]="selected_reference" name="reference">
+          <mat-option *ngFor="let test of list_categories" [value]="test">
+            {{test}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+    <button *ngIf="this.list_categories" mat-raised-button [mat-dialog-close]="true" color="button-blue" class="apply-button" (click)="applyChanges()">Apply</button>
+  </mat-card>

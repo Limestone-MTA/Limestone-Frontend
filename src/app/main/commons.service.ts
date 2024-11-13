@@ -7,7 +7,6 @@ import { LocalStorage } from '@ngx-pwa/local-storage';
 import { Analyse, As, User, Project, Qc, Result, Summary, Variable, Dt} from './entities';
 import { Subject, Observable, of} from 'rxjs';
 import { mergeMap, map, delay, tap} from 'rxjs/operators';
-import { environment } from 'src/environments/environment.prod';
 
 
 @Injectable()
@@ -28,7 +27,7 @@ export class CommonsService {
   dataReady = new Subject<void>();
 
   redirectUrl = '/home';
-  private api_url: string = environment.apiUrl; 
+  api_url: string = (window as any).appConfig.apiUrl;
   private base: string; // url for authentification 
 
   params = {
@@ -266,7 +265,7 @@ export class CommonsService {
     return v;
   }
   
-  getVariablesForDataTransformation(dt: Dt): Observable<Variable[][]> {
+  getVariablesForDataTransformation(dt: Dt, p: Project): Observable<Variable[][]> {
     return this.localStorage.getItem('varsTransform' + dt.ident + dt.created).pipe(
       mergeMap(vars => {
         if (vars && vars instanceof Array) {
@@ -277,11 +276,23 @@ export class CommonsService {
           const url = this.api_url + `variables_transform/?project_id=${dt.projectId}&dt_id=${dt.ident}`;
           return this.http.get(url, {withCredentials: true}).pipe(
             map((variables: any) => {
+              const vars1 = variables[0].map((v: Variable) => this._formatVariable(v, p));
+              const vars2 = variables[1].map((v: Variable) => this._formatVariable(v, p));
+              const vars3 = variables[2].map((v: Variable) => this._formatVariable(v, p));
               this.localStorage.setItem('varsTransform' + dt.ident + dt.created, variables).subscribe();
               return variables;
             }),
           );
         }
+      }),
+    );
+  }
+
+  getVariableValueForCategoricalTransformation(dt: Dt, variable: Variable): Observable<string[]> {
+    const url = this.api_url + `categorical_transform/?project_id=${dt.projectId}&dt_id=${dt.ident}&variable_name=${variable.name}`;
+    return this.http.get(url, {withCredentials: true}).pipe(
+      map((values: any) => {
+        return values;
       }),
     );
   }
@@ -346,6 +357,12 @@ export class CommonsService {
       }),
     );
   }
+
+  getAnalysisInformations(result_id: string, refresh = false): Observable<any> {
+    const url = this.api_url + `analyis_information/?result_id=${result_id}`;
+    return this.http.get(url, {withCredentials: true})
+  }
+
 
   getResult(id: string, refresh = false): Observable<Result> {
     return this.getProjects(refresh).pipe(
@@ -447,7 +464,7 @@ export class CommonsService {
       if (v.shrinked) {
         qc.lowCountRuleCount++;
       }
-      if (v.shrinked || v.excludedBcMissing) {
+      if (v.shrinked || v.excludedBcMissing || v.type =='Text') {
         qc.ruleCount++;
       }
       if (this.isForcedExclude(v)) {
@@ -506,6 +523,13 @@ export class CommonsService {
     );
   }
 
+  duplicateDT(dt: Dt, changed: Set<Variable>): Observable<Dt> {
+    this.localStorage.setItem('varsTransform' + dt.ident + dt.created, changed).subscribe();
+    var list_variables = Array.from(changed.values()); //The backend cannot read Set, but it can read array, idk why
+    const myPostBody = {dt, list_variables};
+    return this.http.patch<Dt>(this.api_url + 'duplicateDT/', myPostBody, {withCredentials: true});
+  }
+  
   transformData(dt: Dt, changed: Set<Variable>): Observable<Dt> {
     this.localStorage.setItem('varsTransform' + dt.ident + dt.created, changed).subscribe();
     var list_variables = Array.from(changed.values()); //The backend cannot read Set, but it can read array, idk why
@@ -534,6 +558,25 @@ export class CommonsService {
     if (qcS.outliersChoose == "preserveAll") {qcS.distanceMean = -1} // to save the preserveAll in database set distanceMean<0
     return this._patchQc$(qcS)
   }
+
+  duplicateQC(qc: Qc): Observable<Qc> {
+    const qcS = { ...qc };
+    qcS.excludedLowCountRule = null; // hack to avoid spring rest to fail
+    if (qcS.outliersChoose == "preserveAll") {qcS.distanceMean = -1} // to save the preserveAll in database set distanceMean<0
+    var qcToSend = new Qc();
+    qcToSend.ident = qc.ident;
+    qcToSend.projectId = qc.projectId;
+    qcToSend.dtId = qc.dtId;
+    qcToSend.name = qc.name;
+    qcToSend.missingThreshold = qc.missingThreshold;
+    qcToSend.lowCountRule = qc.lowCountRule;
+    qcToSend.distanceMean = qc.distanceMean;
+    qcToSend.dataSummaryPreQc = qc.dataSummaryPreQc;
+    qcToSend.created = qc.created;
+    qcToSend.updated = qc.updated;
+    return this.http.patch<Qc>(this.api_url + 'duplicateQC/', qcToSend, {withCredentials: true});
+  }
+
   /**
    * Fast create a DT, a QC and an As
   **/
@@ -583,6 +626,11 @@ export class CommonsService {
         return of([]);
       }),
     );  
+  }
+
+  duplicateAS(As: As, changed: Variable[]): Observable<As>{
+    const myPostBody = {As, changed}
+    return this.http.patch<As>(this.api_url + 'duplicateAS/', myPostBody, {withCredentials: true});  
   }
 
   snack = (msg: string) => this.snackBar.open(msg, '', { duration: 3000 });
